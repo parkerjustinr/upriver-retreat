@@ -1,167 +1,212 @@
 {
   "meta": {
-    "name": "Sample Event",
-    "shortName": "SE",
-    "year": "2026",
-    "tagline": "[PLACEHOLDER] One line that says what this event is and who it is for.",
+    "name": "Upriver '27",
+    "shortName": "U27",
+    "org": "Ferrow",
+    "year": "2027",
     "timezone": "America/New_York",
-    "tzLabel": "ET",
-    "dates": "Sat, Nov 14 - Sun, Nov 15, 2026",
-    "venue": "Sample Venue",
-    "city": "City, ST",
-    "address": "123 Sample St, City, ST 00000",
-    "pageTitle": "Sample Event 2026 - City, ST",
-    "description": "[PLACEHOLDER] Meta description: what, when, where, in one sentence.",
-    "placeholderNotice": "Sample content. Every name, time, and price on this page is placeholder.",
-    "footerLine": "Event site concept built on Arrived."
+    "tzLabel": "Eastern",
+    "dates": "Wed May 12 - Fri May 14, 2027",
+    "venue": "The Ridgefold",
+    "city": "outside Hudson, NY",
+    "pageTitle": "Upriver '27 - Ferrow retreat, May 12-14, 2027",
+    "description": "Itinerary, travel, packing list and RSVP for Upriver '27, Ferrow's retreat at The Ridgefold outside Hudson, NY, May 12-14, 2027.",
+    "fictionNotice": "Upriver '27 is a fictional event for a fictional company. Site concept and design by Justin Parker."
   },
 
   "sections": [
-    { "id": "about", "label": "About", "on": true },
-    { "id": "speakers", "label": "Speakers", "on": true },
-    { "id": "schedule", "label": "Schedule", "on": true },
-    { "id": "tickets", "label": "Tickets", "on": true },
-    { "id": "sponsors", "label": "Sponsors", "on": true },
-    { "id": "venue", "label": "Getting there", "on": true },
-    { "id": "register", "label": "Register", "on": true },
-    { "id": "faq", "label": "FAQ", "on": true }
+    { "id": "welcome", "label": "Welcome", "on": true },
+    { "id": "itinerary", "label": "Itinerary", "on": true },
+    { "id": "travel", "label": "Travel and hotel", "on": true },
+    { "id": "packing", "label": "Packing", "on": true },
+    { "id": "rsvp", "label": "RSVP", "on": true },
+    { "id": "contacts", "label": "Contacts", "on": true }
   ],
 
-  "hero": {
-    "title": ["Sample", "Event"],
-    "sub": "[PLACEHOLDER] Two sentences max. What happens, who should come, why this year.",
-    "primaryCta": { "label": "Get tickets", "href": "#tickets" },
-    "secondaryCta": { "label": "See the schedule", "href": "#schedule" },
-    "facts": [
-      { "value": "2", "label": "Days" },
-      { "value": "24", "label": "Sessions" },
-      { "value": "12", "label": "Speakers" },
-      { "value": "600", "label": "Seats" }
-    ]
+  "welcome": {
+    "title": ["Upriver", "'27"],
+    "deadline": "RSVP by April 9, 2027",
+    "cta": { "label": "RSVP", "href": "#rsvp" },
+    "quote": "It has been a big year, and most of us have only met on a screen. Three days in one place is overdue.",
+    "quoteBy": "Mara Lindqvist, CEO"
   },
 
-  "about": {
-    "heading": "[PLACEHOLDER] About heading that says something specific",
-    "paragraphs": [
-      "[PLACEHOLDER] First paragraph. The one thing that makes this event different.",
-      "[PLACEHOLDER] Second paragraph. What a first-timer should expect."
-    ]
-  },
-
-  "tracks": [
-    { "id": "main", "name": "Main Stage" },
-    { "id": "studio", "name": "Studio" },
-    { "id": "social", "name": "Social" }
+  "people": [
+    { "id": "p-mara", "name": "Mara Lindqvist", "photo": "" },
+    { "id": "p-jonah", "name": "Jonah Pell", "photo": "" },
+    { "id": "p-bea", "name": "Bea Torvald", "photo": "" },
+    { "id": "p-ruth", "name": "Ruth Calloway", "photo": "" },
+    { "id": "p-omar", "name": "Omar Steen", "photo": "" },
+    { "id": "p-lena", "name": "Lena Moss", "photo": "" }
   ],
 
-  "speakers": {
-    "heading": "Speakers",
-    "intro": "[PLACEHOLDER] One line on who is speaking and why it matters.",
-    "items": [
-      { "id": "sp1", "name": "Speaker One", "role": "Title, Organization", "bio": "[PLACEHOLDER] Two-line bio for the featured speaker. This person gets the big slot.", "photo": "", "link": "" },
-      { "id": "sp2", "name": "Speaker Two", "role": "Title, Organization", "bio": "[PLACEHOLDER] Short bio.", "photo": "", "link": "" },
-      { "id": "sp3", "name": "Speaker Three", "role": "Title, Organization", "bio": "[PLACEHOLDER] Short bio.", "photo": "", "link": "" },
-      { "id": "sp4", "name": "Speaker Four", "role": "Title, Organization", "bio": "[PLACEHOLDER] Short bio.", "photo": "", "link": "" },
-      { "id": "sp5", "name": "Speaker Five", "role": "Title, Organization", "bio": "[PLACEHOLDER] Short bio.", "photo": "", "link": "" },
-      { "id": "sp6", "name": "Speaker Six", "role": "Title, Organization", "bio": "[PLACEHOLDER] Short bio.", "photo": "", "link": "" }
-    ]
-  },
-
-  "schedule": {
-    "heading": "Schedule",
-    "note": "[PLACEHOLDER] Times are draft.",
+  "itinerary": {
+    "heading": "Itinerary",
+    "note": "All times Eastern.",
     "days": [
       {
-        "id": "d1",
-        "label": "Day 1",
-        "date": "2026-11-14",
-        "title": "Saturday, Nov 14",
+        "id": "wed",
+        "label": "Wed",
+        "date": "2027-05-12",
+        "title": "May 12",
         "sessions": [
-          { "id": "s101", "start": "09:00", "end": "10:00", "title": "Doors and check-in", "track": "social", "speakers": [], "detail": "[PLACEHOLDER] Badge pickup at the front desk.", "tiers": ["full", "day1", "vip"] },
-          { "id": "s102", "start": "10:00", "end": "10:45", "title": "Opening keynote", "track": "main", "speakers": ["sp1"], "detail": "[PLACEHOLDER] Session description.", "tiers": ["full", "day1", "vip"] },
-          { "id": "s103", "start": "11:00", "end": "12:00", "title": "Panel session", "track": "main", "speakers": ["sp2", "sp3"], "detail": "[PLACEHOLDER] Session description.", "tiers": ["full", "day1", "vip"] },
-          { "id": "s104", "start": "11:00", "end": "12:30", "title": "Hands-on workshop", "track": "studio", "speakers": ["sp4"], "detail": "[PLACEHOLDER] Limited seats.", "tiers": ["full", "vip"] },
-          { "id": "s105", "start": "12:30", "end": "13:30", "title": "Lunch", "track": "social", "speakers": [], "detail": "[PLACEHOLDER] Included with Full and VIP.", "tiers": ["full", "vip"] },
-          { "id": "s106", "start": "14:00", "end": "15:00", "title": "Fireside chat", "track": "main", "speakers": ["sp5"], "detail": "[PLACEHOLDER] Session description.", "tiers": ["full", "day1", "vip"] },
-          { "id": "s107", "start": "18:00", "end": "20:00", "title": "Speaker dinner", "track": "social", "speakers": ["sp1", "sp6"], "detail": "[PLACEHOLDER] VIP only.", "tiers": ["vip"] }
+          { "id": "w1", "start": "12:30", "end": "17:00", "type": "travel", "title": "Arrivals", "place": "Main lodge, front desk", "detail": "Pick up your badge and room key." },
+          { "id": "w2", "start": "17:30", "end": "18:15", "type": "session", "title": "Opening remarks", "place": "The Barn", "leads": ["p-mara"] },
+          { "id": "w3", "start": "18:30", "end": "20:00", "type": "meal", "title": "Dinner", "place": "Dining hall" },
+          { "id": "w4", "start": "20:00", "end": "22:30", "type": "social", "title": "Fire pit and games", "place": "North lawn" }
         ]
       },
       {
-        "id": "d2",
-        "label": "Day 2",
-        "date": "2026-11-15",
-        "title": "Sunday, Nov 15",
+        "id": "thu",
+        "label": "Thu",
+        "date": "2027-05-13",
+        "title": "May 13",
         "sessions": [
-          { "id": "s201", "start": "09:30", "end": "10:00", "title": "Doors", "track": "social", "speakers": [], "detail": "[PLACEHOLDER] Coffee in the lobby.", "tiers": ["full", "day2", "vip"] },
-          { "id": "s202", "start": "10:00", "end": "11:00", "title": "Morning keynote", "track": "main", "speakers": ["sp6"], "detail": "[PLACEHOLDER] Session description.", "tiers": ["full", "day2", "vip"] },
-          { "id": "s203", "start": "11:15", "end": "12:30", "title": "Studio session", "track": "studio", "speakers": ["sp3", "sp4"], "detail": "[PLACEHOLDER] Limited seats.", "tiers": ["full", "vip"] },
-          { "id": "s204", "start": "13:30", "end": "14:30", "title": "Closing talk", "track": "main", "speakers": ["sp2"], "detail": "[PLACEHOLDER] Session description.", "tiers": ["full", "day2", "vip"] },
-          { "id": "s205", "start": "15:00", "end": "17:00", "title": "Closing party", "track": "social", "speakers": [], "detail": "[PLACEHOLDER] Everyone welcome.", "tiers": ["full", "day2", "vip"] }
+          { "id": "t1", "start": "06:45", "end": "07:30", "type": "social", "title": "Early walk", "place": "Meet at the boathouse", "detail": "Optional. Easy pace, about 2 miles.", "leads": ["p-bea"] },
+          { "id": "t2", "start": "07:30", "end": "09:00", "type": "meal", "title": "Breakfast", "place": "Dining hall" },
+          { "id": "t3", "start": "09:00", "end": "10:30", "type": "session", "title": "Year in review", "place": "The Barn", "leads": ["p-mara", "p-jonah"] },
+          { "id": "t4", "start": "10:45", "end": "12:15", "type": "session", "title": "Team working sessions", "place": "Library, Loft and Barn", "detail": "Your team lead will share your room." },
+          { "id": "t5", "start": "12:30", "end": "13:30", "type": "meal", "title": "Lunch", "place": "Terrace" },
+          {
+            "id": "t6", "start": "13:45", "end": "17:00", "type": "social", "title": "Afternoon activity, pick one", "place": "Varies", "choice": true,
+            "options": [
+              { "id": "paddle", "type": "social", "title": "River paddle", "place": "Boathouse", "detail": "Canoes and life jackets provided. No experience needed.", "leads": ["p-ruth"], "capacity": 32, "taken": 26 },
+              { "id": "farm", "type": "travel", "title": "Farm visit", "place": "Vans from the front drive", "detail": "A working farm 20 minutes away.", "leads": ["p-omar"], "capacity": 24, "taken": 23 },
+              { "id": "quiet", "type": "free", "title": "Quiet afternoon at the lodge", "place": "Main lodge and grounds", "detail": "Library, sauna and hammocks are open. No plans needed.", "capacity": 70, "taken": 38 }
+            ]
+          },
+          { "id": "t7", "start": "17:00", "end": "18:30", "type": "free", "title": "Free time", "place": "Anywhere" },
+          { "id": "t8", "start": "18:30", "end": "21:00", "type": "meal", "title": "Dinner", "place": "Lawn tent" },
+          { "id": "t9", "start": "21:00", "end": "23:00", "type": "social", "title": "Music and drinks", "place": "The Barn", "leads": ["p-lena"] }
+        ]
+      },
+      {
+        "id": "fri",
+        "label": "Fri",
+        "date": "2027-05-14",
+        "title": "May 14",
+        "sessions": [
+          { "id": "f1", "start": "07:30", "end": "09:00", "type": "meal", "title": "Breakfast", "place": "Dining hall" },
+          { "id": "f2", "start": "09:00", "end": "10:30", "type": "session", "title": "Plans for the year ahead", "place": "The Barn", "leads": ["p-jonah"] },
+          { "id": "f3", "start": "10:45", "end": "11:45", "type": "session", "title": "Questions for leadership", "place": "The Barn", "detail": "Send questions ahead to the retreat lead.", "leads": ["p-mara", "p-jonah"] },
+          { "id": "f4", "start": "12:00", "end": "13:00", "type": "meal", "title": "Lunch", "place": "Dining hall" }
         ]
       }
     ]
   },
 
-  "tickets": {
-    "heading": "Tickets",
-    "intro": "[PLACEHOLDER] One line. Pick a column to choose a ticket. Hover or tap a row to see exactly what it covers.",
-    "recommended": "full",
-    "tiers": [
-      { "id": "day1", "name": "Day 1", "price": "$45", "note": "Sat only", "days": 1 },
-      { "id": "day2", "name": "Day 2", "price": "$45", "note": "Sun only", "days": 1 },
-      { "id": "full", "name": "Full pass", "price": "$80", "note": "Both days", "days": 2 },
-      { "id": "vip", "name": "VIP", "price": "$150", "note": "Both days, plus", "days": 2 }
-    ],
-    "rows": [
-      { "id": "r-d1", "group": "Access", "label": "Day 1 sessions", "from": "day:d1", "tiers": { "day1": "yes", "day2": "no", "full": "yes", "vip": "yes" } },
-      { "id": "r-d2", "group": "Access", "label": "Day 2 sessions", "from": "day:d2", "tiers": { "day1": "no", "day2": "yes", "full": "yes", "vip": "yes" } },
-      { "id": "r-ws", "group": "Access", "label": "Workshops and studio", "from": "track:studio", "tiers": { "day1": "no", "day2": "no", "full": "yes", "vip": "yes" } },
-      { "id": "r-lunch", "group": "Extras", "label": "Lunch", "detail": "[PLACEHOLDER] Lunch both days in the main hall.", "tiers": { "day1": "no", "day2": "no", "full": "yes", "vip": "yes" } },
-      { "id": "r-dinner", "group": "Extras", "label": "Speaker dinner", "from": "session:s107", "tiers": { "day1": "no", "day2": "no", "full": "no", "vip": "yes" } },
-      { "id": "r-seat", "group": "Extras", "label": "Reserved seating", "detail": "[PLACEHOLDER] First three rows at every Main Stage session.", "tiers": { "day1": "no", "day2": "no", "full": "no", "vip": "Front rows" } }
-    ],
-    "footnote": "[PLACEHOLDER] Prices include fees. Refunds until 7 days before."
-  },
+  "shuttles": [
+    { "id": "hud-1", "mode": "train", "dir": "arrive", "date": "2027-05-12", "depart": "12:30", "minutes": 20, "from": "Hudson station", "to": "The Ridgefold", "window": "[PLACEHOLDER] Trains arriving by 12:15 PM" },
+    { "id": "hud-2", "mode": "train", "dir": "arrive", "date": "2027-05-12", "depart": "14:30", "minutes": 20, "from": "Hudson station", "to": "The Ridgefold", "window": "[PLACEHOLDER] Trains arriving 12:15 to 2:15 PM" },
+    { "id": "hud-3", "mode": "train", "dir": "arrive", "date": "2027-05-12", "depart": "16:30", "minutes": 20, "from": "Hudson station", "to": "The Ridgefold", "window": "[PLACEHOLDER] Trains arriving 2:15 to 4:15 PM" },
+    { "id": "alb-1", "mode": "fly", "dir": "arrive", "date": "2027-05-12", "depart": "12:00", "minutes": 50, "from": "ALB arrivals curb", "to": "The Ridgefold", "window": "[PLACEHOLDER] Flights landing by 11:30 AM" },
+    { "id": "alb-2", "mode": "fly", "dir": "arrive", "date": "2027-05-12", "depart": "15:00", "minutes": 50, "from": "ALB arrivals curb", "to": "The Ridgefold", "window": "[PLACEHOLDER] Flights landing 11:30 AM to 2:30 PM" },
+    { "id": "hud-out", "mode": "train", "dir": "depart", "date": "2027-05-14", "depart": "13:30", "minutes": 20, "from": "Front drive", "to": "Hudson station" },
+    { "id": "alb-out", "mode": "fly", "dir": "depart", "date": "2027-05-14", "depart": "13:15", "minutes": 50, "from": "Front drive", "to": "ALB" }
+  ],
 
-  "sponsors": {
-    "heading": "Sponsors",
-    "tiers": [
-      { "name": "Presented by", "items": [{ "name": "Sponsor One", "logo": "", "link": "" }] },
-      { "name": "Partners", "items": [{ "name": "Sponsor Two", "logo": "", "link": "" }, { "name": "Sponsor Three", "logo": "", "link": "" }, { "name": "Sponsor Four", "logo": "", "link": "" }] }
+  "travel": {
+    "heading": "Travel and hotel",
+    "groups": [
+      {
+        "name": "Getting there",
+        "rows": [
+          { "label": "Address", "body": "The full address is in your confirmation email." },
+          { "label": "Train", "body": "Amtrak from New York Penn Station to Hudson, about 2 hours. Hudson station is at 69 South Front Street.", "shuttles": "train" },
+          { "label": "Fly", "body": "Albany International (ALB), about 50 minutes' drive.", "shuttles": "fly" },
+          { "label": "Drive", "body": "About 2 hours from New York City. Parking at the lodge." },
+          { "label": "Leaving Friday", "shuttles": "depart" }
+        ]
+      },
+      {
+        "name": "Hotel",
+        "rows": [
+          { "label": "Check-in", "body": "Rooms ready at 1:00 PM Wednesday. Arrive earlier and the front desk holds your bags." },
+          { "label": "Check-out", "body": "By 10:00 AM Friday. Bags wait at the front desk until your shuttle." },
+          { "label": "Rooms", "body": "A single room for everyone, each with its own bathroom." },
+          { "label": "Wifi", "body": "Network RIDGEFOLD-GUEST. Password is on the card in your room." },
+          { "label": "Quiet hours", "body": "11:00 PM to 7:00 AM in the lodging buildings." },
+          { "label": "Provided", "body": "Towels, toiletries, hair dryers, and loaner rain jackets at the front desk." }
+        ]
+      }
     ]
   },
 
-  "venue": {
-    "heading": "Getting there",
-    "intro": "[PLACEHOLDER] One line on the venue and the best way to arrive.",
-    "mapLink": "",
-    "items": [
-      { "title": "Address", "body": "[PLACEHOLDER] 123 Sample St, City, ST 00000." },
-      { "title": "Transit", "body": "[PLACEHOLDER] Nearest station and walk time." },
-      { "title": "Parking", "body": "[PLACEHOLDER] Where, and what it costs." },
-      { "title": "Check-in", "body": "[PLACEHOLDER] Where to go first and what to bring." },
-      { "title": "Accessibility", "body": "[PLACEHOLDER] Step-free access, seating, and who to contact." }
+  "packing": {
+    "heading": "Packing list",
+    "groups": [
+      {
+        "name": "Essentials",
+        "items": [
+          { "id": "id", "label": "Photo ID" },
+          { "id": "meds", "label": "Any medication you take" },
+          { "id": "charger", "label": "Phone charger" },
+          { "id": "laptop", "label": "Laptop and charger" },
+          { "id": "bottle", "label": "Refillable water bottle" },
+          { "id": "shoes", "label": "Comfortable walking shoes" }
+        ]
+      },
+      {
+        "name": "For the Thursday activity",
+        "items": [
+          { "id": "wet", "label": "Shoes that can get wet or muddy" },
+          { "id": "sun", "label": "Sunscreen and a hat" },
+          { "id": "book", "label": "A book" }
+        ]
+      },
+      {
+        "name": "Evenings",
+        "note": "Evenings can be cool by the river.",
+        "items": [
+          { "id": "layer", "label": "A warm layer" },
+          { "id": "pants", "label": "Long pants for the fire pit" },
+          { "id": "light", "label": "Small flashlight for the paths" }
+        ]
+      }
     ]
   },
 
-  "registration": {
-    "heading": "Register",
-    "intro": "[PLACEHOLDER] One line.",
-    "demoNotice": "Demo form. Nothing is sent anywhere.",
-    "extraFields": [
-      { "id": "org", "label": "Company or school", "type": "text", "required": false },
-      { "id": "access", "label": "Access needs", "type": "textarea", "required": false, "hint": "Anything we should plan for." }
+  "rsvp": {
+    "heading": "RSVP",
+    "demoNotice": "Demo form. Nothing is sent anywhere. Your answers stay in this browser tab.",
+    "emailDomain": "ferrow.example",
+    "teams": ["Engineering", "Product", "Design", "Sales", "Customer Support", "Operations", "People", "Finance"],
+    "arriving": [
+      { "id": "train", "label": "Train to Hudson" },
+      { "id": "fly", "label": "Fly into ALB" },
+      { "id": "drive", "label": "Drive" }
     ],
-    "confirmation": "[PLACEHOLDER] What happens next: confirmation email, where to check in."
+    "driveWindows": ["Before 2:00 PM", "2:00 to 4:00 PM", "After 4:00 PM"],
+    "dietary": [
+      { "id": "vegetarian", "label": "Vegetarian" },
+      { "id": "vegan", "label": "Vegan" },
+      { "id": "gluten-free", "label": "Gluten-free" },
+      { "id": "dairy-free", "label": "Dairy-free" },
+      { "id": "nut-allergy", "label": "Nut allergy" },
+      { "id": "other", "label": "Other" }
+    ],
+    "rooms": ["Alder", "Birch", "Cedar"],
+    "confirmYes": "You're on the list. Your badge and room key are at the front desk.",
+    "confirmNo": "Thanks for letting us know. We'll miss you."
   },
 
-  "faq": {
-    "heading": "FAQ",
+  "guests": [
+    { "id": "g01", "name": "Avery Holm", "team": "Engineering", "room": "Cedar 12" },
+    { "id": "g02", "name": "Nico Bastien", "team": "Product", "room": "Alder 4" },
+    { "id": "g03", "name": "Priya Raman", "team": "Design", "room": "Birch 9" },
+    { "id": "g04", "name": "Sol Ferreira", "team": "Sales", "room": "Cedar 3" },
+    { "id": "g05", "name": "June Adair", "team": "Customer Support", "room": "Alder 15" },
+    { "id": "g06", "name": "Kit Novak", "team": "Operations", "room": "Birch 2" },
+    { "id": "g07", "name": "Hana Ito", "team": "People", "room": "Cedar 7" },
+    { "id": "g08", "name": "Rafe Okonjo", "team": "Finance", "room": "Alder 11" }
+  ],
+
+  "contacts": {
+    "heading": "Contacts",
     "items": [
-      { "q": "[PLACEHOLDER] Can I transfer my ticket?", "a": "[PLACEHOLDER] Answer." },
-      { "q": "[PLACEHOLDER] Is there a dress code?", "a": "[PLACEHOLDER] Answer." },
-      { "q": "[PLACEHOLDER] Will sessions be recorded?", "a": "[PLACEHOLDER] Answer." },
-      { "q": "[PLACEHOLDER] What is the refund policy?", "a": "[PLACEHOLDER] Answer." }
+      { "role": "Retreat lead", "name": "Dana Whitlock", "phone": "+1-518-555-0134", "email": "dana@ferrow.example" },
+      { "role": "Travel and shuttles", "name": "Theo Marsh", "phone": "+1-518-555-0157", "email": "theo@ferrow.example" },
+      { "role": "Onsite medical and safety", "name": "Ines Calder", "phone": "+1-518-555-0188", "email": "ines@ferrow.example", "note": "In an emergency, call 911 first." }
     ]
   }
 }

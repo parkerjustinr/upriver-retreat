@@ -1,6 +1,8 @@
-# Event site
+# Upriver '27
 
-One-page event site. Plain HTML, CSS and vanilla JS, no build step. All content lives in `data/event.json`.
+Invite-only retreat site for Ferrow, a fictional company. Upriver '27 is a fictional event. Site concept and design by Justin Parker.
+
+One-page site. Plain HTML, CSS and vanilla JS, no build step. All content lives in `data/event.json`.
 
 ## Run locally
 The page loads its content with `fetch`, so serve the folder instead of opening the file:
