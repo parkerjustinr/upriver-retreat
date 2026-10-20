@@ -11,35 +11,96 @@
     "city": "outside Hudson, NY",
     "pageTitle": "Upriver '27 - Ferrow retreat, May 12-14, 2027",
     "description": "Itinerary, travel, packing list and RSVP for Upriver '27, Ferrow's retreat at The Ridgefold outside Hudson, NY, May 12-14, 2027.",
-    "fictionNotice": "Upriver '27 is a fictional event for a fictional company. Site concept and design by Justin Parker."
+    "fictionNotice": "Upriver '27 is a fictional event for a fictional company. Site concept and design by Justin Parker.",
+    "photoNote": "Photos from Unsplash, in duotone."
   },
-
   "sections": [
-    { "id": "welcome", "label": "Welcome", "on": true },
-    { "id": "itinerary", "label": "Itinerary", "on": true },
-    { "id": "travel", "label": "Travel and hotel", "on": true },
-    { "id": "packing", "label": "Packing", "on": true },
-    { "id": "rsvp", "label": "RSVP", "on": true },
-    { "id": "contacts", "label": "Contacts", "on": true }
+    {
+      "id": "welcome",
+      "label": "Welcome",
+      "on": true,
+      "short": "Home"
+    },
+    {
+      "id": "itinerary",
+      "label": "Itinerary",
+      "on": true,
+      "short": "Plan"
+    },
+    {
+      "id": "travel",
+      "label": "Travel and hotel",
+      "on": true,
+      "short": "Travel"
+    },
+    {
+      "id": "packing",
+      "label": "Packing",
+      "on": true,
+      "short": "Pack"
+    },
+    {
+      "id": "rsvp",
+      "label": "RSVP",
+      "on": true,
+      "short": "RSVP"
+    },
+    {
+      "id": "contacts",
+      "label": "Contacts",
+      "on": true,
+      "short": "Contacts"
+    }
   ],
-
   "welcome": {
-    "title": ["Upriver", "'27"],
+    "title": [
+      "Upriver",
+      "'27"
+    ],
     "deadline": "RSVP by April 9, 2027",
-    "cta": { "label": "RSVP", "href": "#rsvp" },
+    "cta": {
+      "label": "RSVP",
+      "href": "#rsvp"
+    },
     "quote": "It has been a big year, and most of us have only met on a screen. Three days in one place is overdue.",
-    "quoteBy": "Mara Lindqvist, CEO"
+    "quoteBy": "Mara Lindqvist, CEO",
+    "photo": {
+      "src": "assets/welcome.jpg",
+      "alt": "A wooden dock on a still lake, with pines along the far shore."
+    }
   },
-
   "people": [
-    { "id": "p-mara", "name": "Mara Lindqvist", "photo": "" },
-    { "id": "p-jonah", "name": "Jonah Pell", "photo": "" },
-    { "id": "p-bea", "name": "Bea Torvald", "photo": "" },
-    { "id": "p-ruth", "name": "Ruth Calloway", "photo": "" },
-    { "id": "p-omar", "name": "Omar Steen", "photo": "" },
-    { "id": "p-lena", "name": "Lena Moss", "photo": "" }
+    {
+      "id": "p-mara",
+      "name": "Mara Lindqvist",
+      "photo": "assets/people/p-mara.jpg"
+    },
+    {
+      "id": "p-jonah",
+      "name": "Jonah Pell",
+      "photo": "assets/people/p-jonah.jpg"
+    },
+    {
+      "id": "p-bea",
+      "name": "Bea Torvald",
+      "photo": "assets/people/p-bea.jpg"
+    },
+    {
+      "id": "p-ruth",
+      "name": "Ruth Calloway",
+      "photo": "assets/people/p-ruth.jpg"
+    },
+    {
+      "id": "p-omar",
+      "name": "Omar Steen",
+      "photo": "assets/people/p-omar.jpg"
+    },
+    {
+      "id": "p-lena",
+      "name": "Lena Moss",
+      "photo": "assets/people/p-lena.jpg"
+    }
   ],
-
   "itinerary": {
     "heading": "Itinerary",
     "note": "All times Eastern.",
@@ -50,10 +111,42 @@
         "date": "2027-05-12",
         "title": "May 12",
         "sessions": [
-          { "id": "w1", "start": "12:30", "end": "17:00", "type": "travel", "title": "Arrivals", "place": "Main lodge, front desk", "detail": "Pick up your badge and room key." },
-          { "id": "w2", "start": "17:30", "end": "18:15", "type": "session", "title": "Opening remarks", "place": "The Barn", "leads": ["p-mara"] },
-          { "id": "w3", "start": "18:30", "end": "20:00", "type": "meal", "title": "Dinner", "place": "Dining hall" },
-          { "id": "w4", "start": "20:00", "end": "22:30", "type": "social", "title": "Fire pit and games", "place": "North lawn" }
+          {
+            "id": "w1",
+            "start": "12:30",
+            "end": "17:00",
+            "type": "travel",
+            "title": "Arrivals",
+            "place": "Main lodge, front desk",
+            "detail": "Pick up your badge and room key."
+          },
+          {
+            "id": "w2",
+            "start": "17:30",
+            "end": "18:15",
+            "type": "session",
+            "title": "Opening remarks",
+            "place": "The Barn",
+            "leads": [
+              "p-mara"
+            ]
+          },
+          {
+            "id": "w3",
+            "start": "18:30",
+            "end": "20:00",
+            "type": "meal",
+            "title": "Dinner",
+            "place": "Dining hall"
+          },
+          {
+            "id": "w4",
+            "start": "20:00",
+            "end": "22:30",
+            "type": "social",
+            "title": "Fire pit and games",
+            "place": "North lawn"
+          }
         ]
       },
       {
@@ -62,22 +155,126 @@
         "date": "2027-05-13",
         "title": "May 13",
         "sessions": [
-          { "id": "t1", "start": "06:45", "end": "07:30", "type": "social", "title": "Early walk", "place": "Meet at the boathouse", "detail": "Optional. Easy pace, about 2 miles.", "leads": ["p-bea"] },
-          { "id": "t2", "start": "07:30", "end": "09:00", "type": "meal", "title": "Breakfast", "place": "Dining hall" },
-          { "id": "t3", "start": "09:00", "end": "10:30", "type": "session", "title": "Year in review", "place": "The Barn", "leads": ["p-mara", "p-jonah"] },
-          { "id": "t4", "start": "10:45", "end": "12:15", "type": "session", "title": "Team working sessions", "place": "Library, Loft and Barn", "detail": "Your team lead will share your room." },
-          { "id": "t5", "start": "12:30", "end": "13:30", "type": "meal", "title": "Lunch", "place": "Terrace" },
           {
-            "id": "t6", "start": "13:45", "end": "17:00", "type": "social", "title": "Afternoon activity, pick one", "place": "Varies", "choice": true,
-            "options": [
-              { "id": "paddle", "type": "social", "title": "River paddle", "place": "Boathouse", "detail": "Canoes and life jackets provided. No experience needed.", "leads": ["p-ruth"], "capacity": 32, "taken": 26 },
-              { "id": "farm", "type": "travel", "title": "Farm visit", "place": "Vans from the front drive", "detail": "A working farm 20 minutes away.", "leads": ["p-omar"], "capacity": 24, "taken": 23 },
-              { "id": "quiet", "type": "free", "title": "Quiet afternoon at the lodge", "place": "Main lodge and grounds", "detail": "Library, sauna and hammocks are open. No plans needed.", "capacity": 70, "taken": 38 }
+            "id": "t1",
+            "start": "06:45",
+            "end": "07:30",
+            "type": "social",
+            "title": "Early walk",
+            "place": "Meet at the boathouse",
+            "detail": "Optional. Easy pace, about 2 miles.",
+            "leads": [
+              "p-bea"
             ]
           },
-          { "id": "t7", "start": "17:00", "end": "18:30", "type": "free", "title": "Free time", "place": "Anywhere" },
-          { "id": "t8", "start": "18:30", "end": "21:00", "type": "meal", "title": "Dinner", "place": "Lawn tent" },
-          { "id": "t9", "start": "21:00", "end": "23:00", "type": "social", "title": "Music and drinks", "place": "The Barn", "leads": ["p-lena"] }
+          {
+            "id": "t2",
+            "start": "07:30",
+            "end": "09:00",
+            "type": "meal",
+            "title": "Breakfast",
+            "place": "Dining hall"
+          },
+          {
+            "id": "t3",
+            "start": "09:00",
+            "end": "10:30",
+            "type": "session",
+            "title": "Year in review",
+            "place": "The Barn",
+            "leads": [
+              "p-mara",
+              "p-jonah"
+            ]
+          },
+          {
+            "id": "t4",
+            "start": "10:45",
+            "end": "12:15",
+            "type": "session",
+            "title": "Team working sessions",
+            "place": "Library, Loft and Barn",
+            "detail": "Your team lead will share your room."
+          },
+          {
+            "id": "t5",
+            "start": "12:30",
+            "end": "13:30",
+            "type": "meal",
+            "title": "Lunch",
+            "place": "Terrace"
+          },
+          {
+            "id": "t6",
+            "start": "13:45",
+            "end": "17:00",
+            "type": "social",
+            "title": "Afternoon activity, pick one",
+            "place": "Varies",
+            "choice": true,
+            "options": [
+              {
+                "id": "paddle",
+                "type": "social",
+                "title": "River paddle",
+                "place": "Boathouse",
+                "detail": "Canoes and life jackets provided. No experience needed.",
+                "leads": [
+                  "p-ruth"
+                ],
+                "capacity": 32,
+                "taken": 26
+              },
+              {
+                "id": "farm",
+                "type": "travel",
+                "title": "Farm visit",
+                "place": "Vans from the front drive",
+                "detail": "A working farm 20 minutes away.",
+                "leads": [
+                  "p-omar"
+                ],
+                "capacity": 24,
+                "taken": 23
+              },
+              {
+                "id": "quiet",
+                "type": "free",
+                "title": "Quiet afternoon at the lodge",
+                "place": "Main lodge and grounds",
+                "detail": "Library, sauna and hammocks are open. No plans needed.",
+                "capacity": 70,
+                "taken": 38
+              }
+            ]
+          },
+          {
+            "id": "t7",
+            "start": "17:00",
+            "end": "18:30",
+            "type": "free",
+            "title": "Free time",
+            "place": "Anywhere"
+          },
+          {
+            "id": "t8",
+            "start": "18:30",
+            "end": "21:00",
+            "type": "meal",
+            "title": "Dinner",
+            "place": "Lawn tent"
+          },
+          {
+            "id": "t9",
+            "start": "21:00",
+            "end": "23:00",
+            "type": "social",
+            "title": "Music and drinks",
+            "place": "The Barn",
+            "leads": [
+              "p-lena"
+            ]
+          }
         ]
       },
       {
@@ -86,127 +283,410 @@
         "date": "2027-05-14",
         "title": "May 14",
         "sessions": [
-          { "id": "f1", "start": "07:30", "end": "09:00", "type": "meal", "title": "Breakfast", "place": "Dining hall" },
-          { "id": "f2", "start": "09:00", "end": "10:30", "type": "session", "title": "Plans for the year ahead", "place": "The Barn", "leads": ["p-jonah"] },
-          { "id": "f3", "start": "10:45", "end": "11:45", "type": "session", "title": "Questions for leadership", "place": "The Barn", "detail": "Send questions ahead to the retreat lead.", "leads": ["p-mara", "p-jonah"] },
-          { "id": "f4", "start": "12:00", "end": "13:00", "type": "meal", "title": "Lunch", "place": "Dining hall" }
+          {
+            "id": "f1",
+            "start": "07:30",
+            "end": "09:00",
+            "type": "meal",
+            "title": "Breakfast",
+            "place": "Dining hall"
+          },
+          {
+            "id": "f2",
+            "start": "09:00",
+            "end": "10:30",
+            "type": "session",
+            "title": "Plans for the year ahead",
+            "place": "The Barn",
+            "leads": [
+              "p-jonah"
+            ]
+          },
+          {
+            "id": "f3",
+            "start": "10:45",
+            "end": "11:45",
+            "type": "session",
+            "title": "Questions for leadership",
+            "place": "The Barn",
+            "detail": "Send questions ahead to the retreat lead.",
+            "leads": [
+              "p-mara",
+              "p-jonah"
+            ]
+          },
+          {
+            "id": "f4",
+            "start": "12:00",
+            "end": "13:00",
+            "type": "meal",
+            "title": "Lunch",
+            "place": "Dining hall"
+          }
         ]
       }
     ]
   },
-
   "shuttles": [
-    { "id": "hud-1", "mode": "train", "dir": "arrive", "date": "2027-05-12", "depart": "12:30", "minutes": 20, "from": "Hudson station", "to": "The Ridgefold", "window": "[PLACEHOLDER] Trains arriving by 12:15 PM" },
-    { "id": "hud-2", "mode": "train", "dir": "arrive", "date": "2027-05-12", "depart": "14:30", "minutes": 20, "from": "Hudson station", "to": "The Ridgefold", "window": "[PLACEHOLDER] Trains arriving 12:15 to 2:15 PM" },
-    { "id": "hud-3", "mode": "train", "dir": "arrive", "date": "2027-05-12", "depart": "16:30", "minutes": 20, "from": "Hudson station", "to": "The Ridgefold", "window": "[PLACEHOLDER] Trains arriving 2:15 to 4:15 PM" },
-    { "id": "alb-1", "mode": "fly", "dir": "arrive", "date": "2027-05-12", "depart": "12:00", "minutes": 50, "from": "ALB arrivals curb", "to": "The Ridgefold", "window": "[PLACEHOLDER] Flights landing by 11:30 AM" },
-    { "id": "alb-2", "mode": "fly", "dir": "arrive", "date": "2027-05-12", "depart": "15:00", "minutes": 50, "from": "ALB arrivals curb", "to": "The Ridgefold", "window": "[PLACEHOLDER] Flights landing 11:30 AM to 2:30 PM" },
-    { "id": "hud-out", "mode": "train", "dir": "depart", "date": "2027-05-14", "depart": "13:30", "minutes": 20, "from": "Front drive", "to": "Hudson station" },
-    { "id": "alb-out", "mode": "fly", "dir": "depart", "date": "2027-05-14", "depart": "13:15", "minutes": 50, "from": "Front drive", "to": "ALB" }
+    {
+      "id": "hud-1",
+      "mode": "train",
+      "dir": "arrive",
+      "date": "2027-05-12",
+      "depart": "12:30",
+      "minutes": 20,
+      "from": "Hudson station",
+      "to": "The Ridgefold",
+      "window": "[PLACEHOLDER] Trains arriving by 12:15 PM"
+    },
+    {
+      "id": "hud-2",
+      "mode": "train",
+      "dir": "arrive",
+      "date": "2027-05-12",
+      "depart": "14:30",
+      "minutes": 20,
+      "from": "Hudson station",
+      "to": "The Ridgefold",
+      "window": "[PLACEHOLDER] Trains arriving 12:15 to 2:15 PM"
+    },
+    {
+      "id": "hud-3",
+      "mode": "train",
+      "dir": "arrive",
+      "date": "2027-05-12",
+      "depart": "16:30",
+      "minutes": 20,
+      "from": "Hudson station",
+      "to": "The Ridgefold",
+      "window": "[PLACEHOLDER] Trains arriving 2:15 to 4:15 PM"
+    },
+    {
+      "id": "alb-1",
+      "mode": "fly",
+      "dir": "arrive",
+      "date": "2027-05-12",
+      "depart": "12:00",
+      "minutes": 50,
+      "from": "ALB arrivals curb",
+      "to": "The Ridgefold",
+      "window": "[PLACEHOLDER] Flights landing by 11:30 AM"
+    },
+    {
+      "id": "alb-2",
+      "mode": "fly",
+      "dir": "arrive",
+      "date": "2027-05-12",
+      "depart": "15:00",
+      "minutes": 50,
+      "from": "ALB arrivals curb",
+      "to": "The Ridgefold",
+      "window": "[PLACEHOLDER] Flights landing 11:30 AM to 2:30 PM"
+    },
+    {
+      "id": "hud-out",
+      "mode": "train",
+      "dir": "depart",
+      "date": "2027-05-14",
+      "depart": "13:30",
+      "minutes": 20,
+      "from": "Front drive",
+      "to": "Hudson station"
+    },
+    {
+      "id": "alb-out",
+      "mode": "fly",
+      "dir": "depart",
+      "date": "2027-05-14",
+      "depart": "13:15",
+      "minutes": 50,
+      "from": "Front drive",
+      "to": "ALB"
+    }
   ],
-
   "travel": {
     "heading": "Travel and hotel",
     "groups": [
       {
         "name": "Getting there",
         "rows": [
-          { "label": "Address", "body": "The full address is in your confirmation email." },
-          { "label": "Train", "body": "Amtrak from New York Penn Station to Hudson, about 2 hours. Hudson station is at 69 South Front Street.", "shuttles": "train" },
-          { "label": "Fly", "body": "Albany International (ALB), about 50 minutes' drive.", "shuttles": "fly" },
-          { "label": "Drive", "body": "About 2 hours from New York City. Parking at the lodge." },
-          { "label": "Leaving Friday", "shuttles": "depart" }
+          {
+            "label": "Address",
+            "body": "The full address is in your confirmation email."
+          },
+          {
+            "label": "Train",
+            "body": "Amtrak from New York Penn Station to Hudson, about 2 hours. Hudson station is at 69 South Front Street.",
+            "shuttles": "train",
+            "mode": "train"
+          },
+          {
+            "label": "Fly",
+            "body": "Albany International (ALB), about 50 minutes' drive.",
+            "shuttles": "fly",
+            "mode": "fly"
+          },
+          {
+            "label": "Drive",
+            "body": "About 2 hours from New York City. Parking at the lodge.",
+            "mode": "drive"
+          },
+          {
+            "label": "Leaving Friday",
+            "shuttles": "depart",
+            "mode": "depart"
+          }
         ]
       },
       {
         "name": "Hotel",
         "rows": [
-          { "label": "Check-in", "body": "Rooms ready at 1:00 PM Wednesday. Arrive earlier and the front desk holds your bags." },
-          { "label": "Check-out", "body": "By 10:00 AM Friday. Bags wait at the front desk until your shuttle." },
-          { "label": "Rooms", "body": "A single room for everyone, each with its own bathroom." },
-          { "label": "Wifi", "body": "Network RIDGEFOLD-GUEST. Password is on the card in your room." },
-          { "label": "Quiet hours", "body": "11:00 PM to 7:00 AM in the lodging buildings." },
-          { "label": "Provided", "body": "Towels, toiletries, hair dryers, and loaner rain jackets at the front desk." }
-        ]
+          {
+            "label": "Check-in",
+            "body": "Rooms ready at 1:00 PM Wednesday. Arrive earlier and the front desk holds your bags."
+          },
+          {
+            "label": "Check-out",
+            "body": "By 10:00 AM Friday. Bags wait at the front desk until your shuttle."
+          },
+          {
+            "label": "Rooms",
+            "body": "A single room for everyone, each with its own bathroom."
+          },
+          {
+            "label": "Wifi",
+            "body": "Network RIDGEFOLD-GUEST. Password is on the card in your room."
+          },
+          {
+            "label": "Quiet hours",
+            "body": "11:00 PM to 7:00 AM in the lodging buildings."
+          },
+          {
+            "label": "Provided",
+            "body": "Towels, toiletries, hair dryers, and loaner rain jackets at the front desk."
+          }
+        ],
+        "photo": {
+          "src": "assets/hotel.jpg",
+          "alt": "A made bed with patterned pillows and a lamp on the nightstand."
+        }
       }
     ]
   },
-
   "packing": {
     "heading": "Packing list",
     "groups": [
       {
         "name": "Essentials",
         "items": [
-          { "id": "id", "label": "Photo ID" },
-          { "id": "meds", "label": "Any medication you take" },
-          { "id": "charger", "label": "Phone charger" },
-          { "id": "laptop", "label": "Laptop and charger" },
-          { "id": "bottle", "label": "Refillable water bottle" },
-          { "id": "shoes", "label": "Comfortable walking shoes" }
+          {
+            "id": "id",
+            "label": "Photo ID"
+          },
+          {
+            "id": "meds",
+            "label": "Any medication you take"
+          },
+          {
+            "id": "charger",
+            "label": "Phone charger"
+          },
+          {
+            "id": "laptop",
+            "label": "Laptop and charger"
+          },
+          {
+            "id": "bottle",
+            "label": "Refillable water bottle"
+          },
+          {
+            "id": "shoes",
+            "label": "Comfortable walking shoes"
+          }
         ]
       },
       {
         "name": "For the Thursday activity",
         "items": [
-          { "id": "wet", "label": "Shoes that can get wet or muddy" },
-          { "id": "sun", "label": "Sunscreen and a hat" },
-          { "id": "book", "label": "A book" }
+          {
+            "id": "wet",
+            "label": "Shoes that can get wet or muddy"
+          },
+          {
+            "id": "sun",
+            "label": "Sunscreen and a hat"
+          },
+          {
+            "id": "book",
+            "label": "A book"
+          }
         ]
       },
       {
         "name": "Evenings",
         "note": "Evenings can be cool by the river.",
         "items": [
-          { "id": "layer", "label": "A warm layer" },
-          { "id": "pants", "label": "Long pants for the fire pit" },
-          { "id": "light", "label": "Small flashlight for the paths" }
+          {
+            "id": "layer",
+            "label": "A warm layer"
+          },
+          {
+            "id": "pants",
+            "label": "Long pants for the fire pit"
+          },
+          {
+            "id": "light",
+            "label": "Small flashlight for the paths"
+          }
         ]
       }
     ]
   },
-
   "rsvp": {
     "heading": "RSVP",
     "demoNotice": "Demo form. Nothing is sent anywhere. Your answers stay in this browser tab.",
     "emailDomain": "ferrow.example",
-    "teams": ["Engineering", "Product", "Design", "Sales", "Customer Support", "Operations", "People", "Finance"],
+    "teams": [
+      "Engineering",
+      "Product",
+      "Design",
+      "Sales",
+      "Customer Support",
+      "Operations",
+      "People",
+      "Finance"
+    ],
     "arriving": [
-      { "id": "train", "label": "Train to Hudson" },
-      { "id": "fly", "label": "Fly into ALB" },
-      { "id": "drive", "label": "Drive" }
+      {
+        "id": "train",
+        "label": "Train to Hudson"
+      },
+      {
+        "id": "fly",
+        "label": "Fly into ALB"
+      },
+      {
+        "id": "drive",
+        "label": "Drive"
+      }
     ],
-    "driveWindows": ["Before 2:00 PM", "2:00 to 4:00 PM", "After 4:00 PM"],
+    "driveWindows": [
+      "Before 2:00 PM",
+      "2:00 to 4:00 PM",
+      "After 4:00 PM"
+    ],
     "dietary": [
-      { "id": "vegetarian", "label": "Vegetarian" },
-      { "id": "vegan", "label": "Vegan" },
-      { "id": "gluten-free", "label": "Gluten-free" },
-      { "id": "dairy-free", "label": "Dairy-free" },
-      { "id": "nut-allergy", "label": "Nut allergy" },
-      { "id": "other", "label": "Other" }
+      {
+        "id": "vegetarian",
+        "label": "Vegetarian"
+      },
+      {
+        "id": "vegan",
+        "label": "Vegan"
+      },
+      {
+        "id": "gluten-free",
+        "label": "Gluten-free"
+      },
+      {
+        "id": "dairy-free",
+        "label": "Dairy-free"
+      },
+      {
+        "id": "nut-allergy",
+        "label": "Nut allergy"
+      },
+      {
+        "id": "other",
+        "label": "Other"
+      }
     ],
-    "rooms": ["Alder", "Birch", "Cedar"],
+    "rooms": [
+      "Alder",
+      "Birch",
+      "Cedar"
+    ],
     "confirmYes": "You're on the list. Your badge and room key are at the front desk.",
-    "confirmNo": "Thanks for letting us know. We'll miss you."
+    "confirmNo": "Thanks for letting us know. We'll miss you.",
+    "badge": {
+      "empty": "Fills in as you RSVP.",
+      "invited": "You're invited, {name}.",
+      "declined": "Sorry you can't make it, {name}.",
+      "ready": "Ready for check-in"
+    }
   },
-
   "guests": [
-    { "id": "g01", "name": "Avery Holm", "team": "Engineering", "room": "Cedar 12" },
-    { "id": "g02", "name": "Nico Bastien", "team": "Product", "room": "Alder 4" },
-    { "id": "g03", "name": "Priya Raman", "team": "Design", "room": "Birch 9" },
-    { "id": "g04", "name": "Sol Ferreira", "team": "Sales", "room": "Cedar 3" },
-    { "id": "g05", "name": "June Adair", "team": "Customer Support", "room": "Alder 15" },
-    { "id": "g06", "name": "Kit Novak", "team": "Operations", "room": "Birch 2" },
-    { "id": "g07", "name": "Hana Ito", "team": "People", "room": "Cedar 7" },
-    { "id": "g08", "name": "Rafe Okonjo", "team": "Finance", "room": "Alder 11" }
+    {
+      "id": "g01",
+      "name": "Avery Holm",
+      "team": "Engineering",
+      "room": "Cedar 12"
+    },
+    {
+      "id": "g02",
+      "name": "Nico Bastien",
+      "team": "Product",
+      "room": "Alder 4"
+    },
+    {
+      "id": "g03",
+      "name": "Priya Raman",
+      "team": "Design",
+      "room": "Birch 9"
+    },
+    {
+      "id": "g04",
+      "name": "Sol Ferreira",
+      "team": "Sales",
+      "room": "Cedar 3"
+    },
+    {
+      "id": "g05",
+      "name": "June Adair",
+      "team": "Customer Support",
+      "room": "Alder 15"
+    },
+    {
+      "id": "g06",
+      "name": "Kit Novak",
+      "team": "Operations",
+      "room": "Birch 2"
+    },
+    {
+      "id": "g07",
+      "name": "Hana Ito",
+      "team": "People",
+      "room": "Cedar 7"
+    },
+    {
+      "id": "g08",
+      "name": "Rafe Okonjo",
+      "team": "Finance",
+      "room": "Alder 11"
+    }
   ],
-
   "contacts": {
     "heading": "Contacts",
     "items": [
-      { "role": "Retreat lead", "name": "Dana Whitlock", "phone": "+1-518-555-0134", "email": "dana@ferrow.example" },
-      { "role": "Travel and shuttles", "name": "Theo Marsh", "phone": "+1-518-555-0157", "email": "theo@ferrow.example" },
-      { "role": "Onsite medical and safety", "name": "Ines Calder", "phone": "+1-518-555-0188", "email": "ines@ferrow.example", "note": "In an emergency, call 911 first." }
+      {
+        "role": "Retreat lead",
+        "name": "Dana Whitlock",
+        "phone": "+1-518-555-0134",
+        "email": "dana@ferrow.example"
+      },
+      {
+        "role": "Travel and shuttles",
+        "name": "Theo Marsh",
+        "phone": "+1-518-555-0157",
+        "email": "theo@ferrow.example"
+      },
+      {
+        "role": "Onsite medical and safety",
+        "name": "Ines Calder",
+        "phone": "+1-518-555-0188",
+        "email": "ines@ferrow.example",
+        "note": "In an emergency, call 911 first."
+      }
     ]
   }
 }

@@ -2,35 +2,55 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Upriver '27 - Ferrow retreat, May 12-14, 2027</title>
   <meta name="description" content="Itinerary, travel, packing list and RSVP for Upriver '27, Ferrow's retreat at The Ridgefold outside Hudson, NY, May 12-14, 2027.">
-  <!-- FONTS: swap these two families in the design pass. Keep one display face + one body face. -->
+  <meta name="theme-color" content="#f2eee5">
+  <!-- FONTS: one grotesk for display and UI, one mono for codes, times, rooms and shuttle IDs. -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Public+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Martian+Mono:wdth,wght@75..112.5,400..600&family=Schibsted+Grotesk:wght@400..800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to main content</a>
   <p class="notice" role="note" id="notice" hidden></p>
 
-  <header class="site-header">
-    <a class="brand" href="#welcome" id="brand"></a>
-    <nav aria-label="Sections"><ul class="nav-list" id="nav"></ul></nav>
-  </header>
+  <div class="app">
+    <div class="rail">
+      <header class="topbar">
+        <a class="brand" href="#welcome" id="brand"></a>
+        <button type="button" class="pill pill-quiet help-btn" id="help-btn" aria-haspopup="dialog">Help</button>
+      </header>
+      <nav class="tabbar" aria-label="Sections"><ul class="tab-list" id="nav"></ul></nav>
+    </div>
 
-  <main id="main" tabindex="-1">
-    <section class="hero" id="welcome" aria-labelledby="hero-title">
-      <!-- HERO MOMENT: the one "slightly too much" element goes in #hero-moment. -->
-      <div class="hero-moment" id="hero-moment" aria-hidden="true"></div>
-      <div class="hero-inner" id="hero"></div>
-    </section>
-    <div id="sections"></div>
-    <noscript><p class="wrap">This page loads its content with JavaScript. Please turn JavaScript on.</p></noscript>
-  </main>
+    <main id="main" tabindex="-1">
+      <section class="hero" id="welcome" aria-labelledby="hero-title">
+        <div class="hero-inner" id="hero"></div>
+        <!-- HERO MOMENT: the guest badge hangs here on phones. From 1024px it moves to the right column. -->
+        <div class="hero-moment" id="hero-moment"></div>
+        <div class="hero-after" id="hero-after"></div>
+      </section>
+      <div id="sections"></div>
+      <noscript><p class="wrap">This page loads its content with JavaScript. Please turn JavaScript on.</p></noscript>
+    </main>
+
+    <aside class="badge-col" id="badge-col" aria-label="Your badge"></aside>
+  </div>
 
   <footer class="site-footer" id="footer"></footer>
+
+  <dialog class="sheet" id="sheet" aria-labelledby="sheet-title">
+    <div class="sheet-panel">
+      <div class="sheet-head">
+        <h2 class="sheet-title" id="sheet-title"></h2>
+        <button type="button" class="icon-btn" id="sheet-close" aria-label="Close"></button>
+      </div>
+      <div class="sheet-body" id="sheet-body"></div>
+    </div>
+  </dialog>
+
   <script src="app.js" defer></script>
 </body>
 </html>
