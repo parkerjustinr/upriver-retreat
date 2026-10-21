@@ -338,7 +338,8 @@
       "minutes": 20,
       "from": "Hudson station",
       "to": "The Ridgefold",
-      "window": "[PLACEHOLDER] Trains arriving by 12:15 PM"
+      "window": "[PLACEHOLDER] Trains arriving by 12:15 PM",
+      "address": "Hudson station, 69 South Front Street, Hudson, NY"
     },
     {
       "id": "hud-2",
@@ -349,7 +350,8 @@
       "minutes": 20,
       "from": "Hudson station",
       "to": "The Ridgefold",
-      "window": "[PLACEHOLDER] Trains arriving 12:15 to 2:15 PM"
+      "window": "[PLACEHOLDER] Trains arriving 12:15 to 2:15 PM",
+      "address": "Hudson station, 69 South Front Street, Hudson, NY"
     },
     {
       "id": "hud-3",
@@ -360,7 +362,8 @@
       "minutes": 20,
       "from": "Hudson station",
       "to": "The Ridgefold",
-      "window": "[PLACEHOLDER] Trains arriving 2:15 to 4:15 PM"
+      "window": "[PLACEHOLDER] Trains arriving 2:15 to 4:15 PM",
+      "address": "Hudson station, 69 South Front Street, Hudson, NY"
     },
     {
       "id": "alb-1",
@@ -371,7 +374,8 @@
       "minutes": 50,
       "from": "ALB arrivals curb",
       "to": "The Ridgefold",
-      "window": "[PLACEHOLDER] Flights landing by 11:30 AM"
+      "window": "[PLACEHOLDER] Flights landing by 11:30 AM",
+      "address": "Albany International Airport (ALB), arrivals curb"
     },
     {
       "id": "alb-2",
@@ -382,7 +386,8 @@
       "minutes": 50,
       "from": "ALB arrivals curb",
       "to": "The Ridgefold",
-      "window": "[PLACEHOLDER] Flights landing 11:30 AM to 2:30 PM"
+      "window": "[PLACEHOLDER] Flights landing 11:30 AM to 2:30 PM",
+      "address": "Albany International Airport (ALB), arrivals curb"
     },
     {
       "id": "hud-out",

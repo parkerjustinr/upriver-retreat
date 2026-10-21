@@ -6,7 +6,7 @@ One-page event site. Plain HTML, CSS, vanilla JS. No framework, no build step. D
 - `data/event.json` - all content. Change copy here, not in the markup.
   - `sections` sets order and on/off for every section. Nav and footer follow it. `welcome` renders into the hero. An entry with `"panel": true` (contacts) is not a page section: its nav and footer items open the panel.
   - Itinerary sessions carry `type` (meal, session, social, travel, free), `place`, optional `detail` and `leads` (ids in `people`). A session with `choice: true` lists `options`, each with `capacity` and `taken`.
-  - `shuttles` drive the travel rows, the RSVP arrival windows, the badge, and the shuttle .ics.
+  - `shuttles` drive the travel rows, the RSVP arrival windows, the badge, and the shuttle .ics (arrival shuttles carry an `address` used as the .ics location).
   - `guests` pre-fill the RSVP from `?g=<id>`.
   - `[PLACEHOLDER]` in any string shows a visible Placeholder tag.
 - `styles.css` - design tokens at the top of `:root`. Change tokens first, then section styles.
