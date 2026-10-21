@@ -10,6 +10,11 @@
   var PACK_KEY = "upriver27-packing";
   var WIDE = window.matchMedia("(min-width: 1024px)");
   var CALM = window.matchMedia("(prefers-reduced-motion: reduce)");
+  // Motion tiers (see CLAUDE.md). ?motion=full forces the full version of every effect, for demos and review.
+  var MOTION_FULL = (function () { try { return new URLSearchParams(location.search).get("motion") === "full"; } catch (e) { return false; } })();
+  if (MOTION_FULL) document.documentElement.classList.add("motion-full");
+  // True when tier 2 effects should use their softer version.
+  function soft() { return CALM.matches && !MOTION_FULL; }
 
   // ---------- icons (Lucide, ISC license). Only used next to data. ----------
   var ICONS = {
@@ -669,7 +674,7 @@
     var bar = document.querySelector(".topbar"), mini = $("mini-badge");
     if (bar && getComputedStyle(bar).position === "sticky") off += bar.offsetHeight;
     if (mini && getComputedStyle(mini).display !== "none") off += mini.offsetHeight;
-    window.scrollTo({ top: Math.max(0, w.getBoundingClientRect().top + window.scrollY - off), behavior: CALM.matches ? "auto" : "smooth" });
+    window.scrollTo({ top: Math.max(0, w.getBoundingClientRect().top + window.scrollY - off), behavior: soft() ? "auto" : "smooth" });
     el.focus({ preventScroll: true });
   }
 
@@ -727,7 +732,7 @@
       $("badge-qr").innerHTML = qrSvg(b.qr);
       $("badge-code").textContent = (r.checkin.scan + " / " + b.room).toUpperCase();
       $("badge-actions").hidden = false;
-      setTimeout(function () { flipBadge(true, !CALM.matches); sway(); }, CALM.matches ? 0 : 350);
+      setTimeout(function () { flipBadge(true, true); sway(); }, soft() ? 0 : 350);
     } else {
       paintBadge(a, "declined");
     }
@@ -745,7 +750,7 @@
     $("rsvp-edit").addEventListener("click", function () {
       $("rsvp").outerHTML = R.rsvp();
       $("badge-actions").hidden = true;
-      flipBadge(false, !CALM.matches);
+      flipBadge(false, true);
       wireForm();
       $("rsvp-form").querySelector("input").focus();
     });
@@ -826,7 +831,7 @@
       }
       var open = t.closest('[data-open="contacts"]');
       if (open) { openSheet(D.contacts.heading, contactsList(), open, "contacts"); return; }
-      if (t.closest("#badge-flip")) { flipBadge(!$("badge-card").classList.contains("is-flipped"), !CALM.matches); return; }
+      if (t.closest("#badge-flip")) { flipBadge(!$("badge-card").classList.contains("is-flipped"), true); return; }
       if (t.closest("#badge-save, [data-badge-save]")) { saveBadgePng(); return; }
     });
     $("help-btn").setAttribute("data-open", "contacts");
@@ -891,8 +896,8 @@
     applySwing();
     SW.raf = requestAnimationFrame(tickSwing);
   }
-  // Confirm: one sway as the card flips.
-  function sway() { if (CALM.matches) return; SW.w += 55; runSwing(0.45); }
+  // Confirm (tier 2): one sway as the card flips. Softer version: the flip crossfades and nothing sways.
+  function sway() { if (soft()) return; SW.w += 55; runSwing(0.45); }
 
   // Mouse and pen only, so touch scrolling is never captured. Decorative: nothing here is focusable.
   function wireDrag() {
@@ -923,8 +928,9 @@
       if (!drag) return;
       drag = null;
       stage.classList.remove("is-dragging");
-      if (CALM.matches) SW.w = 0;
-      runSwing(CALM.matches ? 1 : 0.17);
+      // Tier 2: the softer version eases straight back with no swing.
+      if (soft()) SW.w = 0;
+      runSwing(soft() ? 1 : 0.17);
     }
     pend.addEventListener("pointerup", release);
     pend.addEventListener("pointercancel", release);
@@ -937,10 +943,9 @@
     var mq = WIDE.addEventListener ? WIDE : null;
     if (mq) WIDE.addEventListener("change", placeBadge); else WIDE.addListener(placeBadge);
     wireDrag();
-    // The badge drops in once per page load: from above, overshoot, two or three damped swings, settle.
-    // Moving it between columns later does not replay it. Reduced motion gets a short fade instead.
-    var stage = $("badge-stage");
-    if (CALM.matches) { stage.classList.add("is-fading"); return; }
+    // Tier 1: the badge drops in once per page load for everyone, reduced motion included:
+    // from above, overshoot, two or three damped swings, settled under 2.5s, no flashing.
+    // Moving it between columns later does not replay it.
     SW.y = -($("pendulum").offsetHeight + 40); SW.vy = 0; SW.th = 10; SW.w = 0;
     applySwing();
     runSwing(0.17);
