@@ -138,7 +138,7 @@
   function shuttleEvent(sh) {
     var t = shuttleTimes(sh);
     return { uid: "shuttle-" + sh.id + "-" + D.meta.year, start: t.start, end: t.end, summary: "Shuttle " + shuttleCode(sh) + ": " + sh.from + " to " + sh.to,
-      description: "Retreat shuttle for " + D.meta.name + ". Travel questions: " + D.contacts.items[1].name + ".", location: sh.from };
+      description: "Retreat shuttle for " + D.meta.name + " to " + place("") + ". Travel questions: " + D.contacts.items[1].name + ".", location: sh.address || sh.from };
   }
 
   // ---------- shared bits ----------
