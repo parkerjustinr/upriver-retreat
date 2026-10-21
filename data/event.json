@@ -49,7 +49,8 @@
       "id": "contacts",
       "label": "Contacts",
       "on": true,
-      "short": "Contacts"
+      "short": "Contacts",
+      "panel": true
     }
   ],
   "welcome": {
@@ -613,6 +614,14 @@
       "invited": "You're invited, {name}.",
       "declined": "Sorry you can't make it, {name}.",
       "ready": "Ready for check-in"
+    },
+    "checkin": {
+      "title": "Checked in",
+      "key": "Your room key is at the front desk.",
+      "done": "Done",
+      "broken": "This badge couldn't be read",
+      "brokenLink": "Go to the Upriver '27 site",
+      "scan": "Scan to check in"
     }
   },
   "guests": [

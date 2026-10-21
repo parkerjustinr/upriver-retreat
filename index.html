@@ -18,11 +18,13 @@
 
   <div class="app">
     <div class="rail">
-      <header class="topbar">
-        <a class="brand" href="#welcome" id="brand"></a>
-        <button type="button" class="pill pill-quiet help-btn" id="help-btn" aria-haspopup="dialog">Help</button>
-      </header>
-      <nav class="tabbar" aria-label="Sections"><ul class="tab-list" id="nav"></ul></nav>
+      <div class="rail-inner">
+        <header class="topbar">
+          <a class="brand" href="#welcome" id="brand"></a>
+          <button type="button" class="pill pill-quiet help-btn" id="help-btn" aria-haspopup="dialog">Help</button>
+        </header>
+        <nav class="tabbar" aria-label="Sections"><ul class="tab-list" id="nav"></ul></nav>
+      </div>
     </div>
 
     <main id="main" tabindex="-1">
@@ -51,6 +53,12 @@
     </div>
   </dialog>
 
+  <dialog class="checkin" id="checkin" aria-labelledby="checkin-title">
+    <div class="checkin-inner" id="checkin-body"></div>
+  </dialog>
+
+  <!-- QR codes: qrcode-generator (MIT). If it fails to load, the badge says so and check-in still works by name. -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js" defer></script>
   <script src="app.js" defer></script>
 </body>
 </html>

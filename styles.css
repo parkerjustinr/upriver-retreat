@@ -39,9 +39,11 @@
 *, *::before, *::after { box-sizing: border-box; }
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; scroll-padding-top: calc(var(--topbar-h) + 8px); }
 html.has-sheet { overflow: hidden; }
+/* Motion tiers (see CLAUDE.md). Under reduced motion, anything without a tier 2 softer version below
+   is switched off by this safety net. .motion-full (?motion=full) turns every softer version off. */
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  *, *::before, *::after { animation: none !important; transition: none !important; }
+  html:not(.motion-full) { scroll-behavior: auto; }
+  html:not(.motion-full) *, html:not(.motion-full) *::before, html:not(.motion-full) *::after { animation: none !important; transition: none !important; }
 }
 body { margin: 0; background: var(--birch); color: var(--ink); font-family: var(--display); font-size: 1rem; line-height: 1.5; overflow-x: hidden; }
 img { max-width: 100%; display: block; }
@@ -84,7 +86,7 @@ main:focus { outline: none; }
 
 /* ---------- app shell ---------- */
 .app { min-height: 100vh; }
-.rail { display: contents; }
+.rail, .rail-inner { display: contents; }
 .topbar {
   position: sticky; top: 0; z-index: 60; height: var(--topbar-h); display: flex; align-items: center; justify-content: space-between; gap: 12px;
   padding: 0 var(--gutter); background: var(--birch); border-bottom: 1px solid var(--line);
@@ -100,11 +102,12 @@ main:focus { outline: none; }
 }
 .tab-list { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
 .tab-list .tab-contacts, .tab-long { display: none; }
-.tab-list a {
+.tab-btn { width: 100%; border: 0; background: transparent; cursor: pointer; }
+.tab-list a, .tab-btn {
   display: grid; place-items: center; min-height: var(--tap); padding: 4px 2px; border-radius: var(--pill);
   font-weight: 700; font-size: 0.86rem; text-decoration: none; color: var(--muted);
 }
-.tab-list a:hover { color: var(--ink); background: var(--slate-soft); }
+.tab-list a:hover, .tab-btn:hover { color: var(--ink); background: var(--slate-soft); }
 .tab-list a[aria-current="location"] { background: var(--orange); color: var(--on-orange); }
 body { padding-bottom: calc(var(--tabbar-h) + var(--safe-b)); }
 
@@ -295,24 +298,12 @@ main { min-width: 0; }
 .contact.is-urgent .c-actions .pill:first-child { min-height: 56px; padding: 10px 20px; background: var(--ink); color: var(--birch); }
 .contact.is-urgent .c-actions .pill:first-child .mono { font-size: 1.05rem; }
 .contact.is-urgent .c-actions .pill:first-child:hover { background: var(--slate-deep); }
-.sec-contacts { background: var(--slate); color: var(--birch); border-top: 0; --focus: var(--birch); }
-.sec-contacts .glist { background: transparent; border-radius: 0; border-top: 2px solid var(--birch); overflow: visible; }
-.sec-contacts .glist > li + li { border-top-color: rgba(242, 238, 229, 0.3); }
-.sec-contacts .g-row { padding: 16px 0 18px; }
-.sec-contacts .g-label { font-size: 1.4rem; font-weight: 800; letter-spacing: -0.01em; }
-.sec-contacts .g-sub { color: var(--birch); opacity: 0.85; }
-.sec-contacts .c-actions .pill { background: transparent; color: var(--birch); border: 1.5px solid rgba(242, 238, 229, 0.55); }
-.sec-contacts .c-actions .pill:hover { background: var(--slate-deep); }
-.sec-contacts .contact.is-urgent .g-label { font-size: 2rem; }
-.sec-contacts .contact.is-urgent .c-actions .pill:first-child { background: var(--birch); color: var(--ink); border-color: var(--birch); }
-.sec-contacts .contact.is-urgent .c-actions .pill:first-child:hover { background: var(--birch-hi); }
-.c-actions { display: flex; flex-wrap: wrap; gap: 8px; width: 100%; }
-.c-actions .pill { background: var(--birch); font-size: 0.9rem; padding: 8px 14px; overflow-wrap: anywhere; justify-content: flex-start; }
-.c-actions .pill:hover { background: var(--birch-hi); }
-.c-actions .pill .mono { font-size: 0.82rem; }
 
 /* ---------- badge (the hero moment) ---------- */
 .badge-stage { display: grid; justify-items: center; }
+.pendulum { width: 100%; display: grid; justify-items: center; transform-origin: 50% 0; }
+.can-drag .badge { cursor: grab; user-select: none; -webkit-user-select: none; }
+.can-drag.is-dragging .badge { cursor: grabbing; }
 .lanyard { width: 36px; height: 72px; background: var(--ink); clip-path: polygon(0 0, 100% 0, 70% 100%, 30% 100%); }
 .badge { width: min(100%, 300px); perspective: 1200px; margin-top: -6px; }
 .badge-card { display: grid; transform-style: preserve-3d; transition: transform 700ms cubic-bezier(0.3, 0.7, 0.2, 1); }
@@ -347,16 +338,19 @@ main { min-width: 0; }
 .badge-actions[hidden] { display: none; }
 .hero-moment .badge-actions .btn:not(.btn-primary) { background: var(--birch); }
 
-/* One drop with a small swing, under 2 seconds. Reduced motion skips it. */
-.badge-stage.is-dropping .lanyard, .badge-stage.is-dropping .badge { animation: badge-drop 1500ms cubic-bezier(0.2, 0.8, 0.25, 1) both; transform-origin: 50% 0; }
-@keyframes badge-drop {
-  0% { transform: translateY(-110%) rotate(-5deg); opacity: 0; }
-  12% { opacity: 1; }
-  55% { transform: translateY(4%) rotate(3deg); }
-  75% { transform: translateY(-1%) rotate(-1.5deg); }
-  90% { transform: translateY(0) rotate(0.5deg); }
-  100% { transform: none; opacity: 1; }
+/* The drop and swing run in app.js (one damped spring, pivot at the lanyard top). Tier 1: plays for everyone. */
+
+/* Tier 2 softer versions. They outrank the safety net on purpose. */
+@media (prefers-reduced-motion: reduce) {
+  /* Badge flip: a 200ms crossfade instead of the 3D turn. */
+  html:not(.motion-full) .badge-card, html:not(.motion-full) .badge-card.is-flipped, html:not(.motion-full) .badge-back { transform: none; }
+  html:not(.motion-full) .badge-face { transition: opacity 200ms ease !important; }
+  html:not(.motion-full) .badge-card:not(.is-flipped) .badge-back, html:not(.motion-full) .badge-card.is-flipped .badge-front { opacity: 0; }
+  /* Sheets and the contacts dialog: a short fade instead of the slide or scale. */
+  html:not(.motion-full) .sheet-panel { animation: soft-in 150ms ease-out both !important; }
 }
+@keyframes soft-in { from { opacity: 0; } to { opacity: 1; } }
+.qr-missing { margin: 0; padding: 14px; background: var(--birch); border-radius: 8px; font-size: 0.85rem; font-weight: 600; height: 100%; }
 
 /* ---------- sheet ---------- */
 .sheet { position: fixed; inset: 0; width: 100%; height: 100%; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: transparent; color: var(--ink); }
@@ -369,6 +363,7 @@ main { min-width: 0; }
 }
 .sheet-panel::before { content: ""; display: block; width: 40px; height: 5px; margin: 0 auto 8px; border-radius: var(--pill); background: var(--line); }
 @keyframes sheet-up { from { transform: translateY(100%); } to { transform: none; } }
+@keyframes dialog-in { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: none; } }
 .sheet-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
 .sheet-title { font-size: 1.7rem; padding-top: 6px; }
 .sheet-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 16px; margin-bottom: 12px; font-size: 0.9rem; font-weight: 600; }
@@ -379,12 +374,32 @@ main { min-width: 0; }
 .sheet-cap { font-size: 0.85rem; font-weight: 600; }
 .sheet .contact-list { margin-bottom: 4px; }
 
+/* ---------- check-in screen (from the QR URL) ---------- */
+.checkin { position: fixed; inset: 0; width: 100%; height: 100%; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: var(--slate); color: var(--ink); overflow-y: auto; }
+.checkin[open] { display: grid; place-items: start center; }
+.checkin::backdrop { background: var(--slate); }
+.checkin-inner { width: 100%; max-width: 440px; padding: 24px var(--gutter) calc(32px + var(--safe-b)); }
+.ci-card { background: var(--orange); color: var(--on-orange); border-radius: var(--r); overflow: hidden; }
+.ci-body { padding: 18px 18px 22px; }
+.ci-title { font-size: clamp(2.6rem, 13vw, 3.4rem); letter-spacing: -0.03em; margin-bottom: 14px; }
+.ci-fields { padding: 0 0 16px; }
+.ci-fields dd { overflow-wrap: anywhere; }
+.ci-sub { display: block; font-size: 0.82rem; font-weight: 600; margin-top: 2px; }
+.ci-key { font-weight: 700; font-size: 1.05rem; margin-bottom: 18px; }
+.ci-done { background: var(--ink); color: var(--birch); min-width: 160px; }
+.ci-done:hover { background: var(--slate-deep); }
+.ci-plain { background: var(--birch); border-radius: var(--r); padding: 22px 18px; }
+.ci-plain .ci-title { font-size: clamp(1.8rem, 8vw, 2.4rem); }
+.ci-link { font-weight: 700; }
+@media (min-width: 720px) { .checkin[open] { place-items: center; } }
+
 /* ---------- footer ---------- */
 .site-footer { background: var(--ink); color: var(--birch); padding: 36px var(--gutter) 40px; --focus: var(--birch); }
 .footer-inner { display: grid; gap: 16px; max-width: 760px; }
 .footer-word { font-weight: 800; font-size: clamp(3rem, 16vw, 6rem); line-height: 0.9; letter-spacing: -0.035em; margin: 0; }
 .footer-links { display: flex; flex-wrap: wrap; gap: 4px 18px; font-weight: 600; }
-.footer-links a { display: inline-block; padding: 8px 0; }
+.footer-links a, .link-btn { display: inline-block; padding: 8px 0; }
+.link-btn { border: 0; background: none; font: inherit; font-weight: 600; color: inherit; text-decoration: underline; cursor: pointer; }
 .footer-small { font-size: 0.88rem; opacity: 0.85; margin: 0; }
 
 /* ---------- tablet ---------- */
@@ -403,17 +418,22 @@ main { min-width: 0; }
   :root { --gutter: 32px; }
   body { padding-bottom: 0; }
   html { scroll-padding-top: 16px; }
-  .app { display: grid; grid-template-columns: 208px minmax(0, 1fr) clamp(300px, 28vw, 380px); align-items: start; }
-  .rail { display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh; padding: 16px 12px 20px; border-right: 1px solid var(--line); }
+  /* Columns stretch to the full page height; their contents stay sticky inside them. */
+  .app { display: grid; grid-template-columns: 208px minmax(0, 1fr) clamp(300px, 28vw, 380px); align-items: stretch; }
+  .rail { display: block; border-right: 1px solid var(--line); }
+  .rail-inner { display: flex; flex-direction: column; position: sticky; top: 0; max-height: 100vh; overflow-y: auto; padding: 16px 12px 20px; }
   .topbar { position: static; height: auto; padding: 0 8px 16px; border: 0; flex-direction: column; align-items: flex-start; gap: 10px; background: transparent; }
   .tabbar { position: static; padding: 0; border: 0; background: transparent; }
   .tab-list { display: grid; grid-template-columns: 1fr; gap: 2px; }
   .tab-list .tab-contacts { display: list-item; }
   .tab-short { display: none; }
   .tab-long { display: inline; }
-  .tab-list a { display: flex; justify-content: flex-start; padding: 8px 14px; font-size: 0.98rem; color: var(--ink); }
-  .badge-col { position: sticky; top: 0; height: 100vh; background: var(--slate); padding: 0 24px 24px; overflow-y: auto; --focus: var(--birch); }
-  .badge-col .badge-stage { padding-top: 0; }
+  .tab-list a, .tab-btn { display: flex; justify-content: flex-start; padding: 8px 14px; font-size: 0.98rem; color: var(--ink); }
+  .badge-col { background: var(--slate); padding: 0 24px; overflow: clip; --focus: var(--birch); }
+  .badge-col .badge-stage { position: sticky; top: 0; padding: 0 0 24px; }
+  .sheet[data-kind="contacts"][open] { align-items: center; padding: 24px; }
+  .sheet[data-kind="contacts"] .sheet-panel { border-radius: var(--r); max-height: 80vh; padding-bottom: 24px; animation: dialog-in 160ms ease-out; }
+  .sheet[data-kind="contacts"] .sheet-panel::before { display: none; }
   .badge-col .badge { width: 100%; max-width: 320px; }
   .badge-col .lanyard { height: 96px; }
   .badge-col .badge-actions .btn:not(.btn-primary) { background: var(--birch); }
