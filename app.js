@@ -309,7 +309,7 @@
         choiceGroup("attending", "Are you coming?", "radio", [{ id: "yes", label: "Yes, I'll be there" }, { id: "no", label: "No, I can't make it" }]) +
         field("name", "Full name", '<input type="text" id="f-name" name="name" autocomplete="name" aria-describedby="e-name">') +
         '<div class="rsvp-branch" id="rsvp-yes" hidden>' +
-          field("email", "Work email", '<input type="email" id="f-email" name="email" autocomplete="email" inputmode="email" placeholder="you@' + esc(r.emailDomain) + '" aria-describedby="e-email">') +
+          field("email", "Work email", '<input type="email" id="f-email" name="email" autocomplete="email" inputmode="email" placeholder="name@' + esc(r.emailDomain) + '" aria-describedby="e-email">') +
           field("team", "Team", '<select id="f-team" name="team" aria-describedby="e-team">' + teams + "</select>") +
           choiceGroup("arriving", "How are you arriving?", "radio", r.arriving.map(function (x) { return { id: x.id, label: x.label, icon: MODE_ICON[x.id] }; })) +
           field("window", "Arrival window", '<select id="f-window" name="window" aria-describedby="h-window e-window" disabled><option value="">Choose how you are arriving first</option></select>',
@@ -337,7 +337,6 @@
         '<a class="pill" href="mailto:' + esc(x.email) + '">' + icon("mail") + '<span><span class="sr">Email </span>' + esc(x.email) + "</span></a></div></li>";
     }).join("") + "</ul>";
   }
-  R.contacts = function () { return sectionShell("contacts", D.contacts.heading, contactsList()); };
 
   // ---------- badge ----------
   var BADGE_FIELDS = [["name", "Name"], ["team", "Team"], ["room", "Room"], ["shuttle", "Shuttle"], ["thursday", "Thursday"], ["dietary", "Dietary"]];
@@ -346,6 +345,7 @@
     var head = '<div class="badge-head"><span class="badge-slot" aria-hidden="true"></span><p class="badge-event">' + esc(m.name) +
       '</p><p class="badge-org mono">' + esc(m.org) + " retreat</p></div>";
     return '<div class="badge-stage" id="badge-stage">' +
+      '<div class="pendulum" id="pendulum">' +
       '<div class="lanyard" aria-hidden="true"></div>' +
       '<div class="badge" id="badge" role="group" aria-label="Your guest badge" data-mode="empty">' +
         '<div class="badge-card" id="badge-card">' +
@@ -362,6 +362,7 @@
           "</div>" +
         "</div>" +
       "</div>" +
+      "</div>" +
       '<div class="badge-actions" id="badge-actions" hidden>' +
         '<button type="button" class="btn btn-small" id="badge-flip" aria-pressed="true">Show front</button>' +
         '<button type="button" class="btn btn-small btn-primary" id="badge-save">Save badge</button>' +
@@ -376,12 +377,33 @@
     if (empty) dd.innerHTML = '<span class="sr">Not filled in yet</span>';
     else dd.textContent = value;
   }
+  // ---------- check-in QR ----------
+  // The code holds a short URL back to this site: name, room, Thursday pick, arrival shuttle. No email, no dietary info.
+  var QZ = 4; // quiet zone in modules, the birch border scanners need
+  function checkinUrl(b) {
+    var sh = b.shuttle.id ? byId(D.shuttles, b.shuttle.id) : null;
+    var q = "n=" + encodeURIComponent(b.name.slice(0, 60)) + "&r=" + encodeURIComponent(b.room.replace(/\s+/g, "")) +
+      (b.thursday ? "&t=" + encodeURIComponent(b.thursday.id) : "") + "&s=" + (sh ? shuttleCode(sh) : "DRIVE");
+    return location.origin + location.pathname + "#checkin?" + q;
+  }
+  function makeQr(text) {
+    var out = { url: text, size: 0, rows: [] };
+    if (typeof window.qrcode !== "function") return out;
+    try {
+      var q = window.qrcode(0, "M");
+      q.addData(text); q.make();
+      out.size = q.getModuleCount();
+      for (var r = 0; r < out.size; r++) { var row = ""; for (var c = 0; c < out.size; c++) row += q.isDark(r, c) ? "1" : "0"; out.rows.push(row); }
+    } catch (e) { out.size = 0; out.rows = []; }
+    return out;
+  }
   function qrSvg(qr) {
-    var d = "", q = 2, n = qr.size + q * 2;
+    if (!qr.size) return '<p class="qr-missing">The code needs a connection to draw. Check in at the front desk with your name.</p>';
+    var d = "", n = qr.size + QZ * 2;
     qr.rows.forEach(function (row, y) {
-      for (var x = 0; x < row.length; x++) if (row.charAt(x) === "1") d += "M" + (x + q) + " " + (y + q) + "h1v1h-1z";
+      for (var x = 0; x < row.length; x++) if (row.charAt(x) === "1") d += "M" + (x + QZ) + " " + (y + QZ) + "h1v1h-1z";
     });
-    return '<svg viewBox="0 0 ' + n + " " + n + '" role="img" aria-label="Check-in pattern. Demo only, it encodes nothing." shape-rendering="crispEdges">' +
+    return '<svg viewBox="0 0 ' + n + " " + n + '" role="img" aria-label="QR code. ' + esc(D.rsvp.checkin.scan) + '." shape-rendering="crispEdges">' +
       '<rect width="' + n + '" height="' + n + '" class="qr-bg"/><path d="' + d + '" class="qr-fg"/></svg>';
   }
   function flipBadge(toBack, animate) {
@@ -484,13 +506,17 @@
       fieldAt(L, 540, "Dietary", b.dietary.join(", "), 20, 404);
       x.font = "400 12px " + mono; x.fillText("ID " + b.id.toUpperCase(), L, 670);
       card(560);
-      var q = b.qr, cell = 10, qx = 560 + (460 - (q.size + 4) * cell) / 2, qy = 196;
-      x.fillStyle = C.birch; x.fillRect(qx, qy, (q.size + 4) * cell, (q.size + 4) * cell);
+      var q = b.qr;
+      if (q.size) {
+        var cell = Math.floor(300 / (q.size + QZ * 2)), side = (q.size + QZ * 2) * cell, qx = 560 + (460 - side) / 2, qy = 186;
+        x.fillStyle = C.birch; x.fillRect(qx, qy, side, side);
+        x.fillStyle = C.ink;
+        q.rows.forEach(function (row, y) { for (var i = 0; i < row.length; i++) if (row.charAt(i) === "1") x.fillRect(qx + (i + QZ) * cell, qy + (y + QZ) * cell, cell, cell); });
+      }
       x.fillStyle = C.ink;
-      q.rows.forEach(function (row, y) { for (var i = 0; i < row.length; i++) if (row.charAt(i) === "1") x.fillRect(qx + (i + 2) * cell, qy + (y + 2) * cell, cell, cell); });
       x.font = "800 30px " + disp; x.fillText(D.rsvp.badge.ready, 588, 530);
       x.font = "400 13px " + mono; x.fillText((b.name + " / " + b.room).toUpperCase(), 588, 560);
-      x.fillText("DEMO PATTERN, NOT A REAL CODE", 588, 670);
+      x.fillText(D.rsvp.checkin.scan.toUpperCase(), 588, 670);
       cv.toBlob(function (blob) { if (blob) download(blob, "upriver-27-badge.png"); }, "image/png");
     });
   }
@@ -622,9 +648,8 @@
       check("attending", att ? "" : "Choose yes or no.");
       if (att) check("name", els.name.value.trim() ? "" : "Enter your name.");
       if (att && att.value === "yes") {
-        var ev = els.email.value.trim(), dom = D.rsvp.emailDomain;
-        check("email", !ev ? "Enter your work email." : !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(ev) ? "Check the email format, for example you@" + dom + "."
-          : ev.toLowerCase().slice(-dom.length - 1) !== "@" + dom ? "Use your @" + dom + " address." : "");
+        var ev = els.email.value.trim();
+        check("email", !ev ? "Enter your work email." : !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(ev) ? "Check the email format, for example name@" + D.rsvp.emailDomain + "." : "");
         check("team", els.team.value ? "" : "Choose your team.");
         check("arriving", picked("arriving") ? "" : "Choose how you're arriving.");
         check("window", els.window.value ? "" : picked("arriving") ? "Choose an arrival window." : "Choose how you're arriving first.");
@@ -632,10 +657,20 @@
         check("dietnotes", other.checked && !els.dietnotes.value.trim() ? "Tell us what to plan for." : "");
         if ($("w-activity")) check("activity", picked("activity") ? "" : "Pick a Thursday activity.");
       }
-      if (first) { first.focus(); return; }
+      if (first) { revealField(first); return; }
       state.answers = readAnswers(form);
       confirmRsvp(state.answers);
     });
+  }
+
+  // Scrolls the field (label, input and message) clear of the sticky top bar and mini badge, then focuses it.
+  function revealField(el) {
+    var w = el.closest(".field") || el, off = 12;
+    var bar = document.querySelector(".topbar"), mini = $("mini-badge");
+    if (bar && getComputedStyle(bar).position === "sticky") off += bar.offsetHeight;
+    if (mini && getComputedStyle(mini).display !== "none") off += mini.offsetHeight;
+    window.scrollTo({ top: Math.max(0, w.getBoundingClientRect().top + window.scrollY - off), behavior: CALM.matches ? "auto" : "smooth" });
+    el.focus({ preventScroll: true });
   }
 
   function readAnswers(form) {
@@ -649,23 +684,6 @@
     return out;
   }
 
-  // A generated pattern that looks like a QR code: three finder squares, timing lines, seeded noise. It encodes nothing.
-  function fakeQr(seed) {
-    var n = 25, g = [], s = hash(seed) || 1;
-    function rand() { s = (s + 0x6D2B79F5) >>> 0; var t = Math.imul(s ^ (s >>> 15), 1 | s); t ^= t + Math.imul(t ^ (t >>> 7), 61 | t); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }
-    function finder(r, c) {
-      for (var y = -1; y <= 7; y++) for (var x = -1; x <= 7; x++) {
-        var yy = r + y, xx = c + x;
-        if (yy < 0 || xx < 0 || yy >= n || xx >= n) continue;
-        var ring = Math.max(Math.abs(y - 3), Math.abs(x - 3));
-        g[yy][xx] = ring === 4 ? 0 : ring === 2 ? 0 : 1;
-      }
-    }
-    for (var y = 0; y < n; y++) { g.push([]); for (var x = 0; x < n; x++) g[y].push(rand() < 0.5 ? 1 : 0); }
-    for (var i = 8; i < n - 8; i++) { g[6][i] = i % 2 ? 0 : 1; g[i][6] = i % 2 ? 0 : 1; }
-    finder(0, 0); finder(0, n - 7); finder(n - 7, 0);
-    return { size: n, rows: g.map(function (row) { return row.join(""); }) };
-  }
   function roomFor(name) {
     var g = state.guest;
     if (g && g.name.toLowerCase() === name.toLowerCase()) return g.room;
@@ -675,7 +693,7 @@
   function buildBadge(a) {
     var sh = byId(D.shuttles, a.window), pick = choiceSession(), opt = pick && a.activity ? byId(pick.options, a.activity) : null;
     var diet = dietLabels(a);
-    return {
+    var b = {
       id: state.guest && state.guest.name.toLowerCase() === a.name.toLowerCase() ? state.guest.id : "w" + hash(a.email).toString(36).slice(0, 5),
       name: a.name,
       team: a.team,
@@ -683,9 +701,10 @@
       shuttle: sh ? { id: sh.id, label: shuttleLabel(sh), from: sh.from, start: shuttleTimes(sh).start.toISOString() }
         : { id: null, label: "No shuttle, driving (" + String(a.window).replace(/^drive:/, "") + ")" },
       thursday: opt ? { id: opt.id, title: opt.title, place: opt.place } : null,
-      dietary: diet.length ? diet : ["No restrictions"],
-      qr: fakeQr(a.name + "|" + a.email)
+      dietary: diet.length ? diet : ["No restrictions"]
     };
+    b.qr = makeQr(checkinUrl(b));
+    return b;
   }
 
   function markPick(id) {
@@ -706,9 +725,9 @@
     if (yes) {
       paintBadge(a, "ready", b.room);
       $("badge-qr").innerHTML = qrSvg(b.qr);
-      $("badge-code").textContent = (b.id + " / " + b.room).toUpperCase();
+      $("badge-code").textContent = (r.checkin.scan + " / " + b.room).toUpperCase();
       $("badge-actions").hidden = false;
-      setTimeout(function () { flipBadge(true, !CALM.matches); }, CALM.matches ? 0 : 350);
+      setTimeout(function () { flipBadge(true, !CALM.matches); sway(); }, CALM.matches ? 0 : 350);
     } else {
       paintBadge(a, "declined");
     }
@@ -734,9 +753,10 @@
 
   // ---------- sheet ----------
   var opener = null;
-  function openSheet(title, body, from) {
+  function openSheet(title, body, from, kind) {
     var dlg = $("sheet");
     opener = from || document.activeElement;
+    dlg.setAttribute("data-kind", kind || "sheet");
     $("sheet-title").textContent = title;
     $("sheet-body").innerHTML = body;
     document.documentElement.classList.add("has-sheet");
@@ -805,15 +825,18 @@
         return;
       }
       var open = t.closest('[data-open="contacts"]');
-      if (open) { openSheet(D.contacts.heading, contactsList(), open); return; }
+      if (open) { openSheet(D.contacts.heading, contactsList(), open, "contacts"); return; }
       if (t.closest("#badge-flip")) { flipBadge(!$("badge-card").classList.contains("is-flipped"), !CALM.matches); return; }
       if (t.closest("#badge-save, [data-badge-save]")) { saveBadgePng(); return; }
     });
-    $("help-btn").addEventListener("click", function () { openSheet(D.contacts.heading, contactsList(), $("help-btn")); });
+    $("help-btn").setAttribute("data-open", "contacts");
   }
 
   function renderChrome() {
-    var m = D.meta, on = D.sections.filter(function (s) { return s.on && R[s.id]; });
+    var m = D.meta, on = D.sections.filter(function (s) { return s.on && (R[s.id] || s.panel); });
+    function panelBtn(s, cls, inner) {
+      return '<button type="button" class="' + cls + '" data-open="' + s.id + '" aria-haspopup="dialog">' + inner + "</button>";
+    }
     document.title = m.pageTitle || m.name;
     var md = document.querySelector('meta[name="description"]');
     if (md) md.setAttribute("content", plain(m.description));
@@ -829,13 +852,83 @@
     }
     // Phones show five tabs; the rail from 1024px also lists contacts.
     $("nav").innerHTML = on.map(function (s) {
-      return '<li class="tab-' + s.id + '"><a href="#' + s.id + '"><span class="tab-short">' + esc(s.short || s.label) + '</span><span class="tab-long">' + esc(s.label) + "</span></a></li>";
+      var inner = '<span class="tab-short">' + esc(s.short || s.label) + '</span><span class="tab-long">' + esc(s.label) + "</span>";
+      return '<li class="tab-' + s.id + '">' + (s.panel ? panelBtn(s, "tab-btn", inner) : '<a href="#' + s.id + '">' + inner + "</a>") + "</li>";
     }).join("");
-    $("sections").innerHTML = on.filter(function (s) { return s.id !== "welcome"; }).map(function (s) { return R[s.id](); }).join("");
+    var pages = on.filter(function (s) { return !s.panel; });
+    $("sections").innerHTML = pages.filter(function (s) { return s.id !== "welcome"; }).map(function (s) { return R[s.id](); }).join("");
     $("footer").innerHTML = '<div class="footer-inner"><p class="footer-word" aria-hidden="true">' + esc(m.name) + "</p>" +
-      '<nav aria-label="Footer"><ul class="footer-links">' + on.map(function (s) { return '<li><a href="#' + s.id + '">' + esc(s.label) + "</a></li>"; }).join("") + "</ul></nav>" +
+      '<nav aria-label="Footer"><ul class="footer-links">' + on.map(function (s) {
+        return "<li>" + (s.panel ? panelBtn(s, "link-btn", esc(s.label)) : '<a href="#' + s.id + '">' + esc(s.label) + "</a>") + "</li>";
+      }).join("") + "</ul></nav>" +
       '<p class="footer-small">' + esc(m.fictionNotice || "") + "</p>" + (m.photoNote ? '<p class="footer-small">' + esc(m.photoNote) + "</p>" : "") + "</div>";
-    return on.map(function (s) { return s.id; });
+    return pages.map(function (s) { return s.id; });
+  }
+
+  // ---------- badge motion ----------
+  // One damped spring drives the drop, the swing after a drag and the sway on confirm.
+  // The pendulum pivots at the top of the lanyard (transform-origin 50% 0). Angles in degrees.
+  var SW = { th: 0, w: 0, y: 0, vy: 0, zeta: 0.17, raf: 0, last: 0, stop: 0 };
+  var SW_OMEGA = 6.9, Y_OMEGA = 10, Y_ZETA = 0.62, SW_MAX = 2400;
+  function applySwing() {
+    var p = $("pendulum");
+    if (p) p.style.transform = SW.y || SW.th ? "translateY(" + SW.y.toFixed(1) + "px) rotate(" + SW.th.toFixed(2) + "deg)" : "";
+  }
+  function stopSwing() { if (SW.raf) cancelAnimationFrame(SW.raf); SW.raf = 0; }
+  function runSwing(zeta) {
+    SW.zeta = zeta; SW.stop = performance.now() + SW_MAX; SW.last = 0;
+    if (!SW.raf) SW.raf = requestAnimationFrame(tickSwing);
+  }
+  function tickSwing(ts) {
+    var dt = SW.last ? Math.min(0.032, (ts - SW.last) / 1000) : 0.016;
+    SW.last = ts;
+    // In the last 500ms the damping ramps up, so the motion always settles before the cap instead of snapping.
+    var left = SW.stop - ts, zeta = left < 500 ? SW.zeta + (1 - Math.max(0, left) / 500) * 4 : SW.zeta;
+    SW.w += (-SW_OMEGA * SW_OMEGA * SW.th - 2 * zeta * SW_OMEGA * SW.w) * dt; SW.th += SW.w * dt;
+    SW.vy += (-Y_OMEGA * Y_OMEGA * SW.y - 2 * Y_ZETA * Y_OMEGA * SW.vy) * dt; SW.y += SW.vy * dt;
+    var still = Math.abs(SW.th) < 0.05 && Math.abs(SW.w) < 0.5 && Math.abs(SW.y) < 0.5 && Math.abs(SW.vy) < 5;
+    if (still || ts >= SW.stop) { SW.th = SW.w = SW.y = SW.vy = 0; SW.raf = 0; applySwing(); return; }
+    applySwing();
+    SW.raf = requestAnimationFrame(tickSwing);
+  }
+  // Confirm: one sway as the card flips.
+  function sway() { if (CALM.matches) return; SW.w += 55; runSwing(0.45); }
+
+  // Mouse and pen only, so touch scrolling is never captured. Decorative: nothing here is focusable.
+  function wireDrag() {
+    var fine = window.matchMedia("(hover: hover) and (pointer: fine)");
+    var stage = $("badge-stage"), pend = $("pendulum"), drag = null;
+    function sync() { stage.classList.toggle("can-drag", fine.matches); }
+    sync();
+    if (fine.addEventListener) fine.addEventListener("change", sync);
+    function angle(e) { return -Math.atan2(e.clientX - drag.px, e.clientY - drag.py) * 180 / Math.PI; }
+    pend.addEventListener("pointerdown", function (e) {
+      if (!fine.matches || e.pointerType === "touch" || e.button !== 0) return;
+      e.preventDefault();
+      stopSwing(); SW.y = SW.vy = 0;
+      var r = stage.getBoundingClientRect();
+      drag = { px: r.left + r.width / 2, py: r.top, t: performance.now() };
+      drag.off = angle(e) - SW.th; drag.last = SW.th;
+      pend.setPointerCapture(e.pointerId);
+      stage.classList.add("is-dragging");
+    });
+    pend.addEventListener("pointermove", function (e) {
+      if (!drag) return;
+      var now = performance.now(), th = Math.max(-40, Math.min(40, angle(e) - drag.off)), dt = Math.max(0.008, (now - drag.t) / 1000);
+      SW.w = Math.max(-400, Math.min(400, 0.6 * SW.w + 0.4 * (th - drag.last) / dt));
+      SW.th = th; drag.last = th; drag.t = now;
+      applySwing();
+    });
+    function release() {
+      if (!drag) return;
+      drag = null;
+      stage.classList.remove("is-dragging");
+      if (CALM.matches) SW.w = 0;
+      runSwing(CALM.matches ? 1 : 0.17);
+    }
+    pend.addEventListener("pointerup", release);
+    pend.addEventListener("pointercancel", release);
+    pend.addEventListener("lostpointercapture", release);
   }
 
   function mountBadge() {
@@ -843,12 +936,77 @@
     placeBadge();
     var mq = WIDE.addEventListener ? WIDE : null;
     if (mq) WIDE.addEventListener("change", placeBadge); else WIDE.addListener(placeBadge);
-    // The badge drops in once per page load. Moving it between columns later does not replay it.
+    wireDrag();
+    // The badge drops in once per page load: from above, overshoot, two or three damped swings, settle.
+    // Moving it between columns later does not replay it. Reduced motion gets a short fade instead.
     var stage = $("badge-stage");
-    if (!CALM.matches) {
-      stage.classList.add("is-dropping");
-      stage.addEventListener("animationend", function () { stage.classList.remove("is-dropping"); }, { once: true });
+    if (CALM.matches) { stage.classList.add("is-fading"); return; }
+    SW.y = -($("pendulum").offsetHeight + 40); SW.vy = 0; SW.th = 10; SW.w = 0;
+    applySwing();
+    runSwing(0.17);
+  }
+
+  // ---------- check-in screen (opened from the QR URL) ----------
+  function parseCheckin(hash) {
+    var i = hash.indexOf("?");
+    if (i < 0) return null;
+    var p;
+    try { p = new URLSearchParams(hash.slice(i + 1)); } catch (e) { return null; }
+    var name = (p.get("n") || "").trim(), room = (p.get("r") || "").trim(), t = p.get("t"), s = (p.get("s") || "").toUpperCase();
+    var rm = room.match(/^([A-Za-z]+)(\d{1,3})$/);
+    var c = choiceSession(), opt = t ? (c ? byId(c.options, t) : null) : null;
+    var arrive = D.shuttles.filter(function (x) { return x.dir === "arrive" && shuttleCode(x) === s; })[0];
+    if (!name || name.length > 60 || !rm || (t && !opt) || (!arrive && s !== "DRIVE")) return null;
+    var friday = arrive ? D.shuttles.filter(function (x) { return x.dir === "depart" && x.mode === arrive.mode; })[0] : null;
+    return { name: name, room: rm[1] + " " + rm[2], opt: opt, session: c, friday: friday };
+  }
+  function checkinHtml(v) {
+    var ci = D.rsvp.checkin, m = D.meta;
+    if (!v) {
+      return '<div class="ci-plain"><h1 class="ci-title" id="checkin-title">' + esc(ci.broken) + '</h1><p><a href="' + esc(location.pathname) + '" class="ci-link">' + esc(ci.brokenLink) + "</a></p></div>";
     }
+    var thu = "";
+    if (v.opt) {
+      var cs = findSession(v.session.id), t = sessionTimes(cs.day, v.session);
+      thu = esc(v.opt.title) + '<span class="ci-sub mono">' + esc(fmtWeekday(t.start) + " " + t.label) + "</span>";
+    }
+    var fri = v.friday ? '<span class="mono">' + esc(shuttleCode(v.friday) + " " + fmtTime(shuttleTimes(v.friday).start)) + '</span><span class="ci-sub">to ' + esc(v.friday.to) + "</span>" : "No shuttle, driving";
+    return '<div class="ci-card">' +
+      '<div class="badge-head"><span class="badge-slot" aria-hidden="true"></span><p class="badge-event">' + esc(m.name) + '</p><p class="badge-org mono">' + esc(m.org) + " retreat</p></div>" +
+      '<div class="ci-body"><h1 class="ci-title" id="checkin-title">' + esc(ci.title) + "</h1>" +
+        '<dl class="badge-fields ci-fields">' +
+          '<div class="bf bf-name"><dt>Name</dt><dd>' + esc(v.name) + "</dd></div>" +
+          '<div class="bf bf-room"><dt>Room</dt><dd>' + esc(v.room) + "</dd></div>" +
+          (thu ? '<div class="bf bf-thursday"><dt>Thursday</dt><dd>' + thu + "</dd></div>" : "") +
+          '<div class="bf bf-shuttle"><dt>Friday shuttle</dt><dd>' + fri + "</dd></div>" +
+        "</dl>" +
+        '<p class="ci-key">' + esc(ci.key) + "</p>" +
+        '<button type="button" class="btn ci-done" id="checkin-done">' + esc(ci.done) + "</button>" +
+      "</div></div>";
+  }
+  function showCheckin() {
+    if (location.hash.indexOf("#checkin") !== 0) return;
+    var dlg = $("checkin");
+    $("checkin-body").innerHTML = checkinHtml(parseCheckin(location.hash));
+    document.documentElement.classList.add("has-sheet");
+    if (!dlg.open) { if (dlg.showModal) dlg.showModal(); else dlg.setAttribute("open", ""); }
+    var done = $("checkin-done") || dlg.querySelector(".ci-link");
+    if (done) done.focus();
+  }
+  function closeCheckin() {
+    var dlg = $("checkin");
+    if (dlg.open) { if (dlg.close) dlg.close(); else dlg.removeAttribute("open"); }
+  }
+  function wireCheckin() {
+    var dlg = $("checkin");
+    dlg.addEventListener("close", function () {
+      document.documentElement.classList.remove("has-sheet");
+      if (location.hash.indexOf("#checkin") === 0) history.replaceState(null, "", location.pathname + location.search);
+      $("main").focus();
+    });
+    dlg.addEventListener("click", function (e) { if (e.target.closest && e.target.closest("#checkin-done")) closeCheckin(); });
+    window.addEventListener("hashchange", showCheckin);
+    showCheckin();
   }
 
   function showError(err) {
@@ -867,9 +1025,9 @@
       state.guest = g ? byId(D.guests || [], g) : null;
       var ids = renderChrome();
       mountBadge();
-      wireTabs(); wirePacking(); wireForm(); wireGlobal(); wireSheet(); wireNav(ids);
+      wireTabs(); wirePacking(); wireForm(); wireGlobal(); wireSheet(); wireNav(ids); wireCheckin();
       window.Upriver = { data: D, badge: null };
-      if (location.hash.length > 1) {
+      if (location.hash.length > 1 && location.hash.indexOf("#checkin") !== 0) {
         var target = $(location.hash.slice(1));
         if (target) target.scrollIntoView();
       }
