@@ -30,7 +30,8 @@ One-page event site. Plain HTML, CSS, vanilla JS. No framework, no build step. D
 - Left-align text. No eyebrow labels over headings. No decorative numbering. No gradients. No drop shadows at rest.
 - Every color means one thing: birch is the page, ink is text and focus, slate is structure (day bands, secondary surfaces, photos), orange is "you" (your badge, your picks, primary actions, the current tab). Keep at least one big field of color per screen.
 - One radius for surfaces (`--r`), pills for controls. Flat at rest; the only shadow is the inset press feedback.
-- Icons: Lucide, inline SVG, one stroke weight, only next to data (activity type, transport mode, dietary, contact method). Never emoji.
+- Icons: Lucide, inline SVG, one stroke weight, only next to data (activity type, transport mode, dietary, contact method). They sit bare, never in a filled circle or chip. Never emoji.
+- One container level per element: no cards or pills inside rows inside rounded groups. Grouped lists are for Travel; Packing is a ruled checklist and Contacts is a slate field. No colored side strips.
 - Tap targets come from `--tap`, which grows under `@media (pointer: coarse)`.
 - Check 360, 390, 768, 1024 and 1280 px wide: no sideways scroll, no clipped headings.
 - Commit and push after every finished change.

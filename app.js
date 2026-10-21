@@ -237,9 +237,9 @@
   R.travel = function () {
     var tv = D.travel;
     function chips(list) {
-      return '<span class="chips">' + list.map(function (s) {
-        return '<span class="chip mono">' + esc(shuttleCode(s)) + " " + esc(fmtTime(shuttleTimes(s).start)) + "</span>";
-      }).join("") + "</span>";
+      return '<p class="g-codes mono">' + list.map(function (s) {
+        return '<span class="code">' + esc(shuttleCode(s)) + " " + esc(fmtTime(shuttleTimes(s).start)) + "</span>";
+      }).join('<span aria-hidden="true"> / </span>') + "</p>";
     }
     function shuttleLine(kind) {
       if (kind === "depart") {
@@ -267,8 +267,8 @@
     var head = '<div class="sec-head pack-band"><h2 class="section-title" id="packing-title">' + copy(pk.heading) + "</h2>" +
       '<p class="pack-count" id="pack-count" aria-live="polite"><span class="mono pack-n" id="pack-n">0/' + total + "</span> packed</p>" +
       '<div class="pack-meter" aria-hidden="true"><span id="pack-meter"></span></div></div>';
-    return sectionShell("packing", pk.heading, '<div class="pack-groups">' + pk.groups.map(function (g) {
-      return '<fieldset class="group pack-group"><legend class="group-title">' + esc(g.name) + "</legend>" +
+    return sectionShell("packing", pk.heading, '<div class="pack-groups">' + pk.groups.map(function (g, gi) {
+      return '<fieldset class="group pack-group' + (gi === 0 ? " pack-essentials" : "") + '"><legend class="group-title">' + esc(g.name) + "</legend>" +
         (g.note ? '<p class="note">' + copy(g.note) + "</p>" : "") +
         '<ul class="glist">' + g.items.map(function (x) {
           return '<li><label class="g-row check-row"><input type="checkbox" class="box" data-pack="' + esc(x.id) + '"><span>' + esc(x.label) + "</span></label></li>";
@@ -331,7 +331,7 @@
     return '<ul class="glist contact-list">' + D.contacts.items.map(function (x) {
       var tel = x.phone.replace(/[^\d+]/g, "");
       var shown = x.phone.replace(/^\+1-/, "").replace(/^(\d{3})-/, "($1) ");
-      return '<li class="g-row contact"><div class="g-main"><p class="g-label">' + esc(x.name) + '</p><p class="g-body">' + esc(x.role) + "</p>" +
+      return '<li class="g-row contact' + (x.urgent ? " is-urgent" : "") + '"><div class="g-main"><p class="g-label">' + esc(x.name) + '</p><p class="g-body">' + esc(x.role) + "</p>" +
         (x.note ? '<p class="g-sub">' + copy(x.note) + "</p>" : "") + "</div>" +
         '<div class="c-actions"><a class="pill" href="tel:' + esc(tel) + '">' + icon("phone") + '<span><span class="sr">Call </span><span class="mono">' + esc(shown) + "</span></span></a>" +
         '<a class="pill" href="mailto:' + esc(x.email) + '">' + icon("mail") + '<span><span class="sr">Email </span>' + esc(x.email) + "</span></a></div></li>";
@@ -429,10 +429,10 @@
     var mini = $("mini-badge");
     if (mini) {
       mini.setAttribute("data-mode", mode);
-      mini.innerHTML = '<span class="mb-name' + (v.name ? "" : " is-empty") + '">' + esc(v.name || "Your name") + "</span>" +
+      mini.innerHTML = '<span class="mb-name' + (v.name ? "" : " is-empty") + '">' + esc(v.name || "Your name") + '</span><span class="mb-line">' +
         ["team", "shuttle", "thursday"].map(function (k) {
-          return '<span class="mb-chip' + (k === "shuttle" ? " mono" : "") + (v[k] ? "" : " is-empty") + '">' + esc(v[k] || BADGE_FIELDS.filter(function (f) { return f[0] === k; })[0][1]) + "</span>";
-        }).join("");
+          return '<span class="mb-f' + (k === "shuttle" ? " mono" : "") + (v[k] ? "" : " is-empty") + '">' + esc(v[k] || BADGE_FIELDS.filter(function (f) { return f[0] === k; })[0][1]) + "</span>";
+        }).join('<span class="mb-sep"> / </span>') + "</span>";
     }
   }
 
@@ -614,7 +614,7 @@
         var target = focusEl || $("f-" + id) || (w && w.querySelector("input:not([disabled])"));
         if (target && !w.matches("fieldset")) target.setAttribute("aria-invalid", msg ? "true" : "false");
         if (w && w.matches("fieldset")) w.classList.toggle("is-invalid", !!msg);
-        err.textContent = msg || "";
+        err.textContent = msg ? "Fix: " + msg : "";
         if (msg && !first) first = target;
       }
       function picked(name) { return form.querySelector('[name="' + name + '"]:checked'); }
@@ -759,8 +759,8 @@
   }
   function sessionSheet(s, day, opt) {
     var t = sessionTimes(day, s), x = opt || s, mine = opt && state.badge && state.badge.thursday && state.badge.thursday.id === opt.id;
-    return '<div class="sheet-meta"><span class="chip mono">' + esc(fmtWeekday(t.start) + " " + t.label) + '</span><span class="chip">' + icon(TYPE_ICON[x.type]) + esc(typeLabel(x.type)) + "</span>" +
-      (mine ? '<span class="chip chip-mine">Your pick</span>' : "") + "</div>" +
+    return '<p class="sheet-meta"><span class="mono">' + esc(fmtWeekday(t.start) + " " + t.label) + '</span><span class="sheet-type">' + icon(TYPE_ICON[x.type]) + esc(typeLabel(x.type)) + "</span>" +
+      (mine ? '<span class="tag-mine">Your pick</span>' : "") + "</p>" +
       '<p class="sheet-place">' + esc(x.place) + "</p>" +
       (x.detail ? "<p>" + copy(x.detail) + "</p>" : "") +
       (opt ? '<p class="mono sheet-cap">' + esc(spotsLeft(opt)) + " of " + esc(opt.capacity) + " spots left</p>" : "") +
