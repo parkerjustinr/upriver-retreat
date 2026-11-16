@@ -249,12 +249,12 @@
     function shuttleLine(kind) {
       if (kind === "depart") {
         var out = D.shuttles.filter(function (s) { return s.dir === "depart"; }).sort(function (a, b) { return a.depart < b.depart ? -1 : 1; });
-        return '<p class="g-sub"><span class="ph">Placeholder</span> Shuttles from the ' + esc(out[0].from.toLowerCase()) + ": " +
+        return '<p class="g-sub">Shuttles from the ' + esc(out[0].from.toLowerCase()) + ": " +
           out.map(function (s) { return "to " + esc(s.to); }).join(", then ") + ".</p>" + chips(out);
       }
       var list = D.shuttles.filter(function (s) { return s.dir === "arrive" && s.mode === kind; });
       if (!list.length) return "";
-      return '<p class="g-sub"><span class="ph">Placeholder</span> Wednesday shuttles from ' + esc(list[0].from) + ". Pick yours in the RSVP.</p>" + chips(list);
+      return '<p class="g-sub">Wednesday shuttles from ' + esc(list[0].from) + ". Pick yours in the RSVP.</p>" + chips(list);
     }
     return sectionShell("travel", tv.heading, tv.groups.map(function (g) {
       return '<div class="group">' + (g.photo ? '<img class="duo group-photo" src="' + esc(g.photo.src) + '" alt="' + esc(g.photo.alt) + '" loading="lazy">' : "") +

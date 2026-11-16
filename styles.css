@@ -300,40 +300,41 @@ main { min-width: 0; }
 .contact.is-urgent .c-actions .pill:first-child:hover { background: var(--slate-deep); }
 
 /* ---------- badge (the hero moment) ---------- */
-.badge-stage { display: grid; justify-items: center; }
+/* Every badge measurement is a multiple of --u. It is 1px below 1024px; the desktop column scales it. */
+.badge-stage { --u: 1px; display: grid; justify-items: center; }
 .pendulum { width: 100%; display: grid; justify-items: center; transform-origin: 50% 0; }
 .can-drag .badge { cursor: grab; user-select: none; -webkit-user-select: none; }
 .can-drag.is-dragging .badge { cursor: grabbing; }
-.lanyard { width: 36px; height: 72px; background: var(--ink); clip-path: polygon(0 0, 100% 0, 70% 100%, 30% 100%); }
-.badge { width: min(100%, 300px); perspective: 1200px; margin-top: -6px; }
+.lanyard { width: calc(36 * var(--u)); height: 72px; background: var(--ink); clip-path: polygon(0 0, 100% 0, 70% 100%, 30% 100%); }
+.badge { width: min(100%, calc(300 * var(--u))); perspective: 1200px; margin-top: -6px; }
 .badge-card { display: grid; transform-style: preserve-3d; transition: transform 700ms cubic-bezier(0.3, 0.7, 0.2, 1); }
 .badge-card.is-flipped { transform: rotateY(180deg); }
 .badge-card.no-anim { transition: none; }
 .badge-face {
   grid-area: 1 / 1; display: flex; flex-direction: column; background: var(--orange); color: var(--on-orange);
-  border-radius: var(--r); overflow: hidden; backface-visibility: hidden; -webkit-backface-visibility: hidden; min-height: 400px;
+  border-radius: calc(16 * var(--u)); overflow: hidden; backface-visibility: hidden; -webkit-backface-visibility: hidden; min-height: calc(400 * var(--u));
 }
 .badge-back { transform: rotateY(180deg); align-items: stretch; }
-.badge-head { background: var(--ink); color: var(--birch); padding: 22px 18px 14px; position: relative; }
-.badge-slot { position: absolute; top: 9px; left: 50%; width: 56px; height: 10px; margin-left: -28px; border-radius: var(--pill); background: var(--slate); }
-.badge-event { margin: 0; font-weight: 800; font-size: 1.6rem; line-height: 1.05; letter-spacing: -0.02em; }
-.badge-org { margin: 4px 0 0; font-size: 0.68rem; text-transform: uppercase; }
-.badge-greet { margin: 14px 18px 4px; font-weight: 700; font-size: 0.95rem; }
-.badge-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; padding: 6px 18px 20px; }
+.badge-head { background: var(--ink); color: var(--birch); padding: calc(22 * var(--u)) calc(18 * var(--u)) calc(14 * var(--u)); position: relative; }
+.badge-slot { position: absolute; top: calc(9 * var(--u)); left: 50%; width: calc(56 * var(--u)); height: calc(10 * var(--u)); margin-left: calc(-28 * var(--u)); border-radius: var(--pill); background: var(--slate); }
+.badge-event { margin: 0; font-weight: 800; font-size: calc(25.6 * var(--u)); line-height: 1.05; letter-spacing: -0.02em; }
+.badge-org { margin: calc(4 * var(--u)) 0 0; font-size: calc(10.88 * var(--u)); text-transform: uppercase; }
+.badge-greet { margin: calc(14 * var(--u)) calc(18 * var(--u)) calc(4 * var(--u)); font-weight: 700; font-size: calc(15.2 * var(--u)); }
+.badge-fields { display: grid; grid-template-columns: 1fr 1fr; gap: calc(10 * var(--u)) calc(14 * var(--u)); padding: calc(6 * var(--u)) calc(18 * var(--u)) calc(20 * var(--u)); }
 .bf { min-width: 0; }
 .bf-name, .bf-shuttle, .bf-thursday, .bf-dietary { grid-column: 1 / -1; }
-.bf dt { font-family: var(--mono); font-stretch: 87.5%; font-size: 0.62rem; font-weight: 600; text-transform: uppercase; margin-bottom: 2px; }
-.bf dd { font-weight: 700; font-size: 1rem; line-height: 1.25; min-height: 26px; overflow-wrap: anywhere; }
-.bf-name dd { font-size: 1.6rem; font-weight: 800; line-height: 1.1; min-height: 36px; letter-spacing: -0.01em; }
-.bf-room dd, .bf-shuttle dd { font-family: var(--mono); font-stretch: 87.5%; font-size: 0.9rem; font-weight: 600; }
-.bf dd.is-empty { border: 1.5px dashed rgba(15, 29, 42, 0.55); border-radius: 8px; }
+.bf dt { font-family: var(--mono); font-stretch: 87.5%; font-size: calc(9.92 * var(--u)); font-weight: 600; text-transform: uppercase; margin-bottom: calc(2 * var(--u)); }
+.bf dd { font-weight: 700; font-size: calc(16 * var(--u)); line-height: 1.25; min-height: calc(26 * var(--u)); overflow-wrap: anywhere; }
+.bf-name dd { font-size: calc(25.6 * var(--u)); font-weight: 800; line-height: 1.1; min-height: calc(36 * var(--u)); letter-spacing: -0.01em; }
+.bf-room dd, .bf-shuttle dd { font-family: var(--mono); font-stretch: 87.5%; font-size: calc(14.4 * var(--u)); font-weight: 600; }
+.bf dd.is-empty { border: 1.5px dashed rgba(15, 29, 42, 0.55); border-radius: calc(8 * var(--u)); }
 .badge[data-mode="declined"] .badge-face { background: var(--slate-soft); }
-.qr { margin: 18px auto 10px; width: 72%; max-width: 210px; aspect-ratio: 1; }
-.qr svg { width: 100%; height: 100%; display: block; border-radius: 8px; }
+.qr { margin: calc(18 * var(--u)) auto calc(10 * var(--u)); width: 72%; max-width: calc(210 * var(--u)); aspect-ratio: 1; }
+.qr svg { width: 100%; height: 100%; display: block; border-radius: calc(8 * var(--u)); }
 .qr-bg { fill: var(--birch); }
 .qr-fg { fill: var(--ink); }
-.badge-ready { margin: 0 18px 4px; font-weight: 800; font-size: 1.5rem; line-height: 1.1; }
-.badge-code { margin: 0 18px 18px; font-size: 0.72rem; font-weight: 600; }
+.badge-ready { margin: 0 calc(18 * var(--u)) calc(4 * var(--u)); font-weight: 800; font-size: calc(24 * var(--u)); line-height: 1.1; }
+.badge-code { margin: 0 calc(18 * var(--u)) calc(18 * var(--u)); font-size: calc(11.52 * var(--u)); font-weight: 600; }
 .badge-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 14px; }
 .badge-actions[hidden] { display: none; }
 .hero-moment .badge-actions .btn:not(.btn-primary) { background: var(--birch); }
@@ -350,7 +351,7 @@ main { min-width: 0; }
   html:not(.motion-full) .sheet-panel { animation: soft-in 150ms ease-out both !important; }
 }
 @keyframes soft-in { from { opacity: 0; } to { opacity: 1; } }
-.qr-missing { margin: 0; padding: 14px; background: var(--birch); border-radius: 8px; font-size: 0.85rem; font-weight: 600; height: 100%; }
+.qr-missing { margin: 0; padding: calc(14 * var(--u)); background: var(--birch); border-radius: calc(8 * var(--u)); font-size: calc(13.6 * var(--u)); font-weight: 600; height: 100%; }
 
 /* ---------- sheet ---------- */
 .sheet { position: fixed; inset: 0; width: 100%; height: 100%; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: transparent; color: var(--ink); }
@@ -407,7 +408,7 @@ main { min-width: 0; }
   :root { --gutter: 28px; }
   .section { padding-top: 40px; padding-bottom: 52px; }
   .hero-moment .badge-stage { padding-bottom: 36px; }
-  .badge { width: 320px; }
+  .badge { width: calc(320 * var(--u)); }
   .pack-groups { grid-template-columns: 1.25fr 1fr; gap: 0 32px; align-items: start; }
   .pack-essentials { grid-row: span 2; }
   .rsvp-head, .pack-band { padding: 24px 22px 20px; }
@@ -420,7 +421,10 @@ main { min-width: 0; }
   html { scroll-padding-top: 16px; }
   /* Columns stretch to the full page height; their contents stay sticky inside them. */
   .app { display: grid; grid-template-columns: 208px minmax(0, 1fr) clamp(300px, 28vw, 380px); align-items: stretch; }
-  .rail { display: block; border-right: 1px solid var(--line); }
+  .rail { display: block; border-right: 1px solid var(--line); grid-column: 1; grid-row: 1 / span 2; }
+  main { grid-column: 2; grid-row: 1; }
+  .site-footer { grid-column: 2; grid-row: 2; }
+  .badge-col { grid-column: 3; grid-row: 1 / span 2; }
   .rail-inner { display: flex; flex-direction: column; position: sticky; top: 0; max-height: 100vh; overflow-y: auto; padding: 16px 12px 20px; }
   .topbar { position: static; height: auto; padding: 0 8px 16px; border: 0; flex-direction: column; align-items: flex-start; gap: 10px; background: transparent; }
   .tabbar { position: static; padding: 0; border: 0; background: transparent; }
@@ -429,18 +433,23 @@ main { min-width: 0; }
   .tab-short { display: none; }
   .tab-long { display: inline; }
   .tab-list a, .tab-btn { display: flex; justify-content: flex-start; padding: 8px 14px; font-size: 0.98rem; color: var(--ink); }
-  .badge-col { background: var(--slate); padding: 0 24px; overflow: clip; --focus: var(--birch); }
-  .badge-col .badge-stage { position: sticky; top: 0; padding: 0 0 24px; }
+  .badge-col { background: var(--slate); padding: 0 24px; overflow: clip; container-type: inline-size; --focus: var(--birch); }
+  /* The badge fills the column width. --u is the smaller of width / 300 and the height left after the
+     banner, lanyard and buttons divided by the badge's 410-unit height, so the buttons never fall off screen. */
+  .badge-col .badge-stage { position: sticky; top: 0; padding: 0 0 16px; --u: min(calc(100cqw / 300), calc((100vh - 190px) / 410)); }
   .sheet[data-kind="contacts"][open] { align-items: center; padding: 24px; }
   .sheet[data-kind="contacts"] .sheet-panel { border-radius: var(--r); max-height: 80vh; padding-bottom: 24px; animation: dialog-in 160ms ease-out; }
   .sheet[data-kind="contacts"] .sheet-panel::before { display: none; }
-  .badge-col .badge { width: 100%; max-width: 320px; }
-  .badge-col .lanyard { height: 96px; }
+  .badge-col .badge { width: 100%; }
+  .badge-col .lanyard { height: 72px; }
   .badge-col .badge-actions .btn:not(.btn-primary) { background: var(--birch); }
   .hero-moment { min-height: 0; aspect-ratio: 21 / 8; }
   .hero-moment > .duo { opacity: 1; }
   .mini-badge { display: none; }
   .section { padding-left: var(--gutter); padding-right: var(--gutter); }
   .hero-inner { padding-top: 40px; }
-  .site-footer { padding-left: calc(208px + var(--gutter)); }
+}
+/* 1280px and up: the badge column takes about 39 percent of the screen. */
+@media (min-width: 1280px) {
+  .app { grid-template-columns: 208px minmax(0, 1fr) 39vw; }
 }
