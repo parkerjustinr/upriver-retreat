@@ -376,7 +376,8 @@ main { min-width: 0; }
 .sheet .contact-list { margin-bottom: 4px; }
 
 /* ---------- check-in screen (from the QR URL) ---------- */
-.checkin { position: fixed; inset: 0; width: 100%; height: 100%; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: var(--slate); color: var(--ink); overflow-y: auto; }
+/* The check-in card reuses badge styles, so it needs the badge unit too. */
+.checkin { --u: 1px; position: fixed; inset: 0; width: 100%; height: 100%; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: var(--slate); color: var(--ink); overflow-y: auto; }
 .checkin[open] { display: grid; place-items: start center; }
 .checkin::backdrop { background: var(--slate); }
 .checkin-inner { width: 100%; max-width: 440px; padding: 24px var(--gutter) calc(32px + var(--safe-b)); }
