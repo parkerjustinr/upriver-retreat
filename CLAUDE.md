@@ -42,7 +42,7 @@ Every motion effect has a tier. Add a new effect to this table, with its tier, i
 | Badge flip from the Show front / Show check-in code button | `flipBadge` | 2 | 700ms 3D turn | 200ms crossfade |
 | Badge swing back after a drag (mouse and pen only) | `wireDrag` | 2 | Damped swing back to rest | Eases straight back, no swing |
 | Session sheet and contacts sheet (below 1024px) | `.sheet-panel` | 2 | 260ms slide up | 150ms fade |
-| Session pass (1024px and up) | `.sheet[data-kind="sheet"]`, `closeSheet` | 2 | 560ms rise from below with a small tilt, overshoot and settle; 220ms drop away on close; backdrop fades | 150ms fade in, closes at once |
+| Session pass (1024px and up) | `.sheet[data-kind="sheet"]`, `closeSheet` | 1 | 560ms rise from below with a small tilt, overshoot and settle; 220ms drop away on close; backdrop fades. Exception to "once": it plays each time a pass opens, chosen because it is short and light | Same as full |
 | Contacts dialog (1024px and up) | `.sheet[data-kind="contacts"]` | 2 | 160ms fade and slight scale | 150ms fade |
 | Smooth scroll for tab and anchor links, and to the first invalid RSVP field | `html` scroll-behavior, `revealField` | 2 | Smooth scroll | Jumps |
 | Packing progress meter | `.pack-meter span` | 2 | 200ms width ease | Updates instantly |

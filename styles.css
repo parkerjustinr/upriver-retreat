@@ -352,6 +352,11 @@ main { min-width: 0; }
   html:not(.motion-full) .sheet-panel { animation: soft-in 150ms ease-out both !important; }
 }
 @keyframes soft-in { from { opacity: 0; } to { opacity: 1; } }
+/* Tier 1: the desktop session pass plays in full for everyone. It outranks the softer sheet fade above. */
+@media (prefers-reduced-motion: reduce) and (min-width: 1024px) {
+  html .sheet[data-kind="sheet"] .sheet-panel { animation: ticket-in 560ms cubic-bezier(0.2, 0.8, 0.25, 1) both !important; }
+  html .sheet[data-kind="sheet"].is-leaving .sheet-panel { animation: ticket-out 220ms cubic-bezier(0.5, 0, 0.75, 0) both !important; }
+}
 .qr-missing { margin: 0; padding: calc(14 * var(--u)); background: var(--birch); border-radius: calc(8 * var(--u)); font-size: calc(13.6 * var(--u)); font-weight: 600; height: 100%; }
 
 /* ---------- sheet ---------- */
