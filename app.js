@@ -770,11 +770,11 @@
     $("sheet-close").focus();
   }
   function finishClose() { var dlg = $("sheet"); if (dlg.open) { if (dlg.close) dlg.close(); else { dlg.removeAttribute("open"); onSheetClosed(); } } }
-  // From 1024px the session pass drops back down before the dialog closes (tier 2; the softer version closes at once).
+  // From 1024px the session pass drops back down before the dialog closes (tier 1: for everyone).
   function closeSheet() {
     var dlg = $("sheet");
     if (!dlg.open || dlg.classList.contains("is-leaving")) return;
-    if (!WIDE.matches || dlg.getAttribute("data-kind") !== "sheet" || soft()) { finishClose(); return; }
+    if (!WIDE.matches || dlg.getAttribute("data-kind") !== "sheet") { finishClose(); return; }
     var done = false;
     function end() { if (done) return; done = true; dlg.classList.remove("is-leaving"); finishClose(); }
     dlg.classList.add("is-leaving");
