@@ -38,7 +38,8 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; scroll-padding-top: calc(var(--topbar-h) + 8px); }
-html.has-sheet { overflow: hidden; }
+/* Lock on body: hiding overflow on html turned body into a scroll container and unstuck every sticky element. */
+html.has-sheet body { overflow: hidden; }
 /* Motion tiers (see CLAUDE.md). Under reduced motion, anything without a tier 2 softer version below
    is switched off by this safety net. .motion-full (?motion=full) turns every softer version off. */
 @media (prefers-reduced-motion: reduce) {
@@ -365,6 +366,14 @@ main { min-width: 0; }
 .sheet-panel::before { content: ""; display: block; width: 40px; height: 5px; margin: 0 auto 8px; border-radius: var(--pill); background: var(--line); }
 @keyframes sheet-up { from { transform: translateY(100%); } to { transform: none; } }
 @keyframes dialog-in { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: none; } }
+@keyframes soft-out { from { opacity: 1; } to { opacity: 0; } }
+@keyframes ticket-in {
+  0% { transform: translateY(calc(100% + 48px)) rotate(-5deg); }
+  55% { transform: translateY(-12px) rotate(1.2deg); }
+  78% { transform: translateY(3px) rotate(-0.4deg); }
+  100% { transform: none; }
+}
+@keyframes ticket-out { to { transform: translateY(calc(100% + 48px)) rotate(4deg); } }
 .sheet-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
 .sheet-title { font-size: 1.7rem; padding-top: 6px; }
 .sheet-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 16px; margin-bottom: 12px; font-size: 0.9rem; font-weight: 600; }
@@ -421,7 +430,8 @@ main { min-width: 0; }
   body { padding-bottom: 0; }
   html { scroll-padding-top: 16px; }
   /* Columns stretch to the full page height; their contents stay sticky inside them. */
-  .app { display: grid; grid-template-columns: 208px minmax(0, 1fr) clamp(300px, 28vw, 380px); align-items: stretch; }
+  :root { --rail-w: 208px; --badge-w: clamp(300px, 28vw, 380px); }
+  .app { display: grid; grid-template-columns: var(--rail-w) minmax(0, 1fr) var(--badge-w); align-items: stretch; }
   .rail { display: block; border-right: 1px solid var(--line); grid-column: 1; grid-row: 1 / span 2; }
   main { grid-column: 2; grid-row: 1; }
   .site-footer { grid-column: 2; grid-row: 2; }
@@ -441,6 +451,21 @@ main { min-width: 0; }
   .sheet[data-kind="contacts"][open] { align-items: center; padding: 24px; }
   .sheet[data-kind="contacts"] .sheet-panel { border-radius: var(--r); max-height: 80vh; padding-bottom: 24px; animation: dialog-in 160ms ease-out; }
   .sheet[data-kind="contacts"] .sheet-panel::before { display: none; }
+  /* Session details: a pass pulled up out of a pocket, over the content column. Ink header with a
+     punched slot like the badge, a perforated seam, then the details. It drops back down on close. */
+  .sheet[data-kind="sheet"][open] { justify-content: center; padding: 0 var(--badge-w) 28px var(--rail-w); }
+  .sheet[data-kind="sheet"]::backdrop { animation: soft-in 260ms ease-out both; }
+  .sheet[data-kind="sheet"] .sheet-panel {
+    width: min(calc(100% - 2 * var(--gutter)), 520px); padding: 0; border-radius: var(--r);
+    transform-origin: 50% 100%; animation: ticket-in 560ms cubic-bezier(0.2, 0.8, 0.25, 1) both;
+  }
+  .sheet[data-kind="sheet"] .sheet-panel::before { display: none; }
+  .sheet[data-kind="sheet"] .sheet-head { position: relative; margin: 0; padding: 32px 24px 20px; background: var(--ink); color: var(--birch); --focus: var(--birch); }
+  .sheet[data-kind="sheet"] .sheet-head::before { content: ""; position: absolute; top: 11px; left: 50%; width: 56px; height: 10px; margin-left: -28px; border-radius: var(--pill); background: var(--slate); }
+  .sheet[data-kind="sheet"] .sheet-title { font-size: 2rem; padding-top: 2px; }
+  .sheet[data-kind="sheet"] .sheet-body { margin-top: 8px; padding: 18px 24px 24px; border-top: 2px dashed rgba(15, 29, 42, 0.28); }
+  .sheet[data-kind="sheet"].is-leaving .sheet-panel { animation: ticket-out 220ms cubic-bezier(0.5, 0, 0.75, 0) both; }
+  .sheet[data-kind="sheet"].is-leaving::backdrop { animation: soft-out 220ms ease-in both; }
   .badge-col .badge { width: 100%; }
   .badge-col .lanyard { height: 72px; }
   .badge-col .badge-actions .btn:not(.btn-primary) { background: var(--birch); }
@@ -452,5 +477,5 @@ main { min-width: 0; }
 }
 /* 1280px and up: the badge column takes about 39 percent of the screen. */
 @media (min-width: 1280px) {
-  .app { grid-template-columns: 208px minmax(0, 1fr) 39vw; }
+  :root { --badge-w: 39vw; }
 }

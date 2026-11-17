@@ -762,13 +762,25 @@
     var dlg = $("sheet");
     opener = from || document.activeElement;
     dlg.setAttribute("data-kind", kind || "sheet");
+    dlg.classList.remove("is-leaving");
     $("sheet-title").textContent = title;
     $("sheet-body").innerHTML = body;
     document.documentElement.classList.add("has-sheet");
     if (dlg.showModal) dlg.showModal(); else dlg.setAttribute("open", "");
     $("sheet-close").focus();
   }
-  function closeSheet() { var dlg = $("sheet"); if (dlg.open) { if (dlg.close) dlg.close(); else { dlg.removeAttribute("open"); onSheetClosed(); } } }
+  function finishClose() { var dlg = $("sheet"); if (dlg.open) { if (dlg.close) dlg.close(); else { dlg.removeAttribute("open"); onSheetClosed(); } } }
+  // From 1024px the session pass drops back down before the dialog closes (tier 2; the softer version closes at once).
+  function closeSheet() {
+    var dlg = $("sheet");
+    if (!dlg.open || dlg.classList.contains("is-leaving")) return;
+    if (!WIDE.matches || dlg.getAttribute("data-kind") !== "sheet" || soft()) { finishClose(); return; }
+    var done = false;
+    function end() { if (done) return; done = true; dlg.classList.remove("is-leaving"); finishClose(); }
+    dlg.classList.add("is-leaving");
+    dlg.querySelector(".sheet-panel").addEventListener("animationend", end, { once: true });
+    setTimeout(end, 300);
+  }
   function onSheetClosed() {
     document.documentElement.classList.remove("has-sheet");
     if (opener && document.contains(opener)) opener.focus();
@@ -779,6 +791,8 @@
     $("sheet-close").innerHTML = icon("x");
     $("sheet-close").addEventListener("click", closeSheet);
     dlg.addEventListener("close", onSheetClosed);
+    // Escape runs the same close, so the pass can drop away first.
+    dlg.addEventListener("cancel", function (e) { e.preventDefault(); closeSheet(); });
     // A tap on the dimmed area lands on the dialog itself, not the panel.
     dlg.addEventListener("click", function (e) { if (e.target === dlg) closeSheet(); });
   }
